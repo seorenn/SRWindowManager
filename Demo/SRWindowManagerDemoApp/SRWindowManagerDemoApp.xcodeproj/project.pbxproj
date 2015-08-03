@@ -32,6 +32,13 @@
 			remoteGlobalIDString = 8A03F2651B6A13F10061C349;
 			remoteInfo = SRWindowManagerDemoApp;
 		};
+		8A03F2AE1B6A259D0061C349 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8A03F2511B6A127F0061C349;
+			remoteInfo = SRWindowManager;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -143,6 +150,14 @@
 			path = SRWindowManagerDemoAppUITests;
 			sourceTree = "<group>";
 		};
+		8A03F2AB1B6A259D0061C349 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8A03F2AF1B6A259D0061C349 /* SRWindowManager.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -233,6 +248,12 @@
 			mainGroup = 8A03F25D1B6A13F10061C349;
 			productRefGroup = 8A03F2671B6A13F10061C349 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8A03F2AB1B6A259D0061C349 /* Products */;
+					ProjectRef = 8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8A03F2651B6A13F10061C349 /* SRWindowManagerDemoApp */,
@@ -241,6 +262,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8A03F2AF1B6A259D0061C349 /* SRWindowManager.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SRWindowManager.framework;
+			remoteRef = 8A03F2AE1B6A259D0061C349 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8A03F2641B6A13F10061C349 /* Resources */ = {
@@ -496,6 +527,7 @@
 				8A03F28D1B6A13F10061C349 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8A03F28E1B6A13F10061C349 /* Build configuration list for PBXNativeTarget "SRWindowManagerDemoAppTests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +536,7 @@
 				8A03F2901B6A13F10061C349 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8A03F2911B6A13F10061C349 /* Build configuration list for PBXNativeTarget "SRWindowManagerDemoAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -512,6 +545,7 @@
 				8A03F2931B6A13F10061C349 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char SRWindowManagerVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <SRWindowManager/PublicHeader.h>
 
-
+#import <SRWindowManager/SRWindowManagerImpl.h>
