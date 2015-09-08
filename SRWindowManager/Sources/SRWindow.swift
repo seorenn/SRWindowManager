@@ -10,7 +10,29 @@
     
 import Cocoa
 
-public class SRWindow: CustomDebugStringConvertible {
+    /*
+    NSDictionary *info = @{ @"name": name,
+    @"bounds.origin.x": [NSNumber numberWithFloat:bounds.origin.x],
+    @"bounds.origin.y": [NSNumber numberWithFloat:bounds.origin.y],
+    @"bounds.size.width": [NSNumber numberWithFloat:bounds.size.width],
+    @"bounds.size.height": [NSNumber numberWithFloat:bounds.size.height],
+    @"pid": [NSNumber numberWithInt:pid],
+    @"number": [NSNumber numberWithInt:number] };
+
+*/
+public class SRWindow {
+    let windowID: Int32
+    let frame: NSRect
+    let pid: pid_t
+    
+    public init(windowID: Int32, frame: NSRect, pid: pid_t) {
+        self.windowID = windowID
+        self.frame = frame
+        self.pid = pid
+    }
+}
+    
+public class SRApplicationWindow: CustomDebugStringConvertible {
     public let runningApplication: NSRunningApplication?
 
     public init(runningApplication: NSRunningApplication) {

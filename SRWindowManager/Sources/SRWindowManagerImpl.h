@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
+NSArray *SRWindowGetInfoList();
+NSImage *SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
+
 @class SRWindowManagerImpl;
 
 @protocol SRWindowManagerImplDelegate /* <NSObject>*/

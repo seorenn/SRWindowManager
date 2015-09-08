@@ -8,6 +8,64 @@
 
 #import "SRWindowManagerImpl.h"
 
+NSArray *SRWindowGetInfoList() {
+    CGWindowListOption listOptions;
+    listOptions = kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements;
+    
+    CFArrayRef windowList = CGWindowListCopyWindowInfo(listOptions, kCGNullWindowID);
+    if (windowList == NULL) {
+        return nil;
+    }
+    
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    
+    CFIndex len = CFArrayGetCount(windowList);
+    for (int i=0; i < len; i++) {
+        NSDictionary *entry = (NSDictionary *)CFArrayGetValueAtIndex(windowList, i);
+        
+        //        int sharingState = [[entry objectForKey:(id)kCGWindowSharingState] intValue];
+        //        if (sharingState == kCGWindowSharingNone) continue;
+        
+        SInt32 windowID = 0;
+        CFNumberRef windowNumber = (__bridge CFNumberRef)([entry objectForKey:(id)kCGWindowNumber]);
+        CFNumberGetValue(windowNumber, kCGWindowIDCFNumberType, &windowID);
+        
+        NSString *name = [entry objectForKey:(id)kCGWindowOwnerName];
+        
+        CGRect bounds;
+        CGRectMakeWithDictionaryRepresentation((CFDictionaryRef)[entry objectForKey:(id)kCGWindowBounds], &bounds);
+        
+        int pid = [[entry objectForKey:(id)kCGWindowOwnerPID] intValue];
+        
+        NSDictionary *info = @{ @"name": name,
+                                @"bounds.origin.x": [NSNumber numberWithFloat:bounds.origin.x],
+                                @"bounds.origin.y": [NSNumber numberWithFloat:bounds.origin.y],
+                                @"bounds.size.width": [NSNumber numberWithFloat:bounds.size.width],
+                                @"bounds.size.height": [NSNumber numberWithFloat:bounds.size.height],
+                                @"pid": [NSNumber numberWithInt:pid],
+                                @"windowid": [NSNumber numberWithInt:windowID] };
+        
+        [list addObject:info];
+    }
+    
+    CFRelease(windowList);
+    
+    return list;
+}
+
+NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds) {
+    CGImageRef cfimage = NULL;
+    
+    cfimage = CGWindowListCreateImage(bounds, kCGWindowListOptionAll, windowID, kCGWindowImageDefault);
+    if (cfimage == NULL) return nil;
+    NSImage *image = [[NSImage alloc] initWithCGImage:cfimage size:bounds.size];
+    
+    CFRelease(cfimage);
+    
+    return image;
+}
+
+
 @implementation SRWindowManagerImpl
 
 @synthesize detecting = _detecting;
@@ -86,6 +144,10 @@
         
         //        int sharingState = [[entry objectForKey:(id)kCGWindowSharingState] intValue];
         //        if (sharingState == kCGWindowSharingNone) continue;
+        
+        SInt32 windowID = 0;
+        CFNumberRef windowNumber = (__bridge CFNumberRef)([entry objectForKey:(id)kCGWindowNumber]);
+        CFNumberGetValue(windowNumber, kCGWindowIDCFNumberType, &windowID);
         
         NSString *name = [entry objectForKey:(id)kCGWindowOwnerName];
         

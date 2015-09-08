@@ -11,7 +11,7 @@
 import Cocoa
 
 public protocol SRWindowManagerDelegate {
-    func windowManager(windowManager: SRWindowManager, detectWindowActivating: SRWindow)
+    func windowManager(windowManager: SRWindowManager, detectWindowActivating: SRApplicationWindow)
 }
     
 public class SRWindowManager: CustomDebugStringConvertible, SRWindowManagerImplDelegate {
@@ -29,24 +29,39 @@ public class SRWindowManager: CustomDebugStringConvertible, SRWindowManagerImplD
         return self.impl.detecting
     }
     
-    public var processes: [NSRunningApplication]? {
+    public var runningApplications: [NSRunningApplication]? {
         return NSWorkspace.sharedWorkspace().runningApplications
     }
     
+//    public var windows: [SRWindow]? {
+//        let list = self.impl.windows()
+//        return list.map() { SRWindow(runningApplication: $0 as! NSRunningApplication) }
+//    }
     public var windows: [SRWindow]? {
-        let list = self.impl.windows()
-        return list.map() { SRWindow(runningApplication: $0 as! NSRunningApplication) }
+        let list = SRWindowGetInfoList() as! [[String: AnyObject]]
+        return list.map {
+            (windowInfo) in
+            let windowID = (windowInfo["windowid"] as! NSNumber).intValue
+            let frame = NSMakeRect(CGFloat((windowInfo["bounds.origin.x"] as! NSNumber).floatValue),
+                CGFloat((windowInfo["bounds.origin.y"] as! NSNumber).floatValue),
+                CGFloat((windowInfo["bounds.size.width"] as! NSNumber).floatValue),
+                CGFloat((windowInfo["bounds.size.height"] as! NSNumber).floatValue))
+            let pid = (windowInfo["pid"] as! NSNumber).intValue
+            
+            return SRWindow(windowID: windowID, frame: frame, pid: pid)
+        }
     }
     
-    public var applicationWindows: [SRWindow]? {
-        var results = [SRWindow]()
+    public var applicationWindows: [SRApplicationWindow]? {
+        var results = [SRApplicationWindow]()
         
-        let procs = self.processes!
-        for proc in procs {
-            if proc.activationPolicy != NSApplicationActivationPolicy.Regular { continue }
+        if let procs = self.runningApplications {
+            for proc in procs {
+                if proc.activationPolicy != NSApplicationActivationPolicy.Regular { continue }
             
-            let window = SRWindow(runningApplication: proc)
-            results.append(window)
+                let window = SRApplicationWindow(runningApplication: proc)
+                results.append(window)
+            }
         }
 
         return results
@@ -67,7 +82,7 @@ public class SRWindowManager: CustomDebugStringConvertible, SRWindowManagerImplD
     // MARK: - Delegation of Objective-C Implementations
     
     @objc public func windowManagerImpl(windowManagerImpl: SRWindowManagerImpl!, detectWindowActivating runningApplication: NSRunningApplication!) {
-        let window = SRWindow(runningApplication: runningApplication)
+        let window = SRApplicationWindow(runningApplication: runningApplication)
         if let d = self.delegate {
             d.windowManager(self, detectWindowActivating: window)
         }
