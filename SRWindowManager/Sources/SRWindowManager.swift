@@ -56,9 +56,7 @@ public class SRWindowManager: CustomDebugStringConvertible, SRWindowManagerImplD
         var results = [SRApplicationWindow]()
         
         if let procs = self.runningApplications {
-            for proc in procs {
-                if proc.activationPolicy != NSApplicationActivationPolicy.Regular { continue }
-            
+            for proc in procs where proc.activationPolicy == .Regular {
                 let window = SRApplicationWindow(runningApplication: proc)
                 results.append(window)
             }
