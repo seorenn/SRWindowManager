@@ -79,25 +79,91 @@ AXUIElementRef SRWindowCopyElementAttribute(AXUIElementRef element, CFStringRef 
     }
 }
 
-NSDictionary<NSString *, id> * _Nullable SRWindowGetFrontmostInfo() {
+AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement() {
     AXUIElementRef systemWideElement = AXUIElementCreateSystemWide();
     AXUIElementRef focusedAppElement = SRWindowCopyElementAttribute(systemWideElement, kAXFocusedApplicationAttribute);
-    NSDictionary<NSString *, id> *result = nil;
+    AXUIElementRef frontWindowElement = NULL;
     
     if (focusedAppElement) {
-        AXUIElementRef frontWindowElement = SRWindowCopyElementAttribute(focusedAppElement, kAXFocusedWindowAttribute);
-        if (frontWindowElement) {
-            // TODO
-            CFRelease(frontWindowElement);
-        }
-        
+        frontWindowElement = SRWindowCopyElementAttribute(focusedAppElement, kAXFocusedWindowAttribute);
         CFRelease(focusedAppElement);
     }
     
     CFRelease(systemWideElement);
+    return frontWindowElement;
+}
+
+// Private
+AXValueRef _Nullable SRWindowCopyElementValue(AXUIElementRef element, CFStringRef attribute, AXValueType type) {
+    if (CFGetTypeID(element) != AXUIElementGetTypeID()) return NULL;
+    
+    CFTypeRef value = NULL;
+    AXError result = AXUIElementCopyAttributeValue(element, attribute, (CFTypeRef *)&value);
+    if (result == kAXErrorSuccess && AXValueGetType(value) == type) {
+        return value;
+    } else {
+        CFRelease(value);
+        return NULL;
+    }
+}
+
+CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement) {
+    CGRect result = CGRectNull;
+    
+    CFTypeRef positionObject = SRWindowCopyElementValue(windowElement, kAXPositionAttribute, kAXValueCGPointType);
+    CFTypeRef sizeObject = SRWindowCopyElementValue(windowElement, kAXSizeAttribute, kAXValueCGSizeType);
+    
+    CGPoint position;
+    CGSize size;
+    int count = 0;
+    
+    if (positionObject) {
+        AXValueGetValue(positionObject, kAXValueCGPointType, (void *)&position);
+        CFRelease(positionObject);
+        count++;
+    }
+    
+    if (sizeObject) {
+        AXValueGetValue(sizeObject, kAXValueCGSizeType, (void *)&size);
+        CFRelease(sizeObject);
+        count++;
+    }
+    
+    if (count == 2) {
+        result = CGRectMake(position.x, position.y, size.width, size.height);
+    }
+    
     return result;
 }
 
+// Private
+BOOL SRWindowSetElementValue(AXUIElementRef element, AXValueRef value, CFStringRef attribute) {
+    AXError result = AXUIElementSetAttributeValue(element, attribute, (CFTypeRef *)value);
+    return (result == kAXErrorSuccess);
+}
+
+BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect frame) {
+    AXValueRef positionObject = AXValueCreate(kAXValueCGPointType, (const void *)&frame.origin);
+    AXValueRef sizeObject = AXValueCreate(kAXValueCGSizeType, (const void *)&frame.size);
+    int count = 0;
+    
+    // TODO: If not move correctly, attach resize above of belows
+    // eg: resize -> move -> resize
+    
+    if (positionObject) {
+        SRWindowSetElementValue(windowElement, positionObject, kAXPositionAttribute);
+        CFRelease(positionObject);
+        count++;
+    }
+    
+    if (sizeObject) {
+        SRWindowSetElementValue(windowElement, sizeObject, kAXSizeAttribute);
+        CFRelease(sizeObject);
+        count++;
+    }
+    
+    return (count == 2);
+}
 
 //@implementation SRWindowManagerImpl
 //

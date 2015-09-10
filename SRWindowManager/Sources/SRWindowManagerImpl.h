@@ -14,7 +14,9 @@ NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
 
 #pragma mark - Accessibility Wrappers
 
-NSDictionary<NSString *, id> * _Nullable SRWindowGetFrontmostInfo();
+AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement();
+CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement);
+BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect frame);
 
 //@class SRWindowManagerImpl;
 //
