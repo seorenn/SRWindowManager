@@ -9,47 +9,61 @@
 #if os(OSX)
     
 import Cocoa
+import SRWindowManagerPrivates
+    
+public typealias SRWindowActivatingHandler = (SRApplicationWindow) -> ()
 
-public protocol SRWindowManagerDelegate {
-    func windowManager(windowManager: SRWindowManager, detectWindowActivating: SRApplicationWindow)
-}
-    
-public class SRWindowManager: CustomDebugStringConvertible, SRWindowManagerImplDelegate {
+public class SRWindowManager: CustomDebugStringConvertible {
     public static let sharedInstance = SRWindowManager()
-    public var delegate: SRWindowManagerDelegate?
     
-    private let impl: SRWindowManagerImpl
+    public private(set) var detecting = false
     
-    public init() {
-        self.impl = SRWindowManagerImpl()
-        self.impl.delegate = self
+    private let nc = NSWorkspace.sharedWorkspace().notificationCenter
+    private var detectingHandler: SRWindowActivatingHandler?
+    
+    public class var available: Bool {
+        return AXIsProcessTrustedWithOptions(nil)
     }
     
-    public var detecting: Bool {
-        return self.impl.detecting
+    public class func openAccessibilityAccessDialogWindow() {
+        let script = "tell application \"System Preferences\" \n reveal anchor \"Privacy_Accessibility\" of pane id \"com.apple.preference.security\" \n activate \n end tell"
+        //let script_for_10_8_or_lower = "tell application \"System Preferences\" \n set the current pane to pane id \"com.apple.preference.universalaccess\" \n activate \n end tell"
+        
+        if let scriptObject = NSAppleScript(source: script) {
+            scriptObject.executeAndReturnError(nil)
+        }
+    }
+    
+    public init() { }
+    
+    deinit {
+        self.stopDetectWindowActivating()
     }
     
     public var runningApplications: [NSRunningApplication]? {
         return NSWorkspace.sharedWorkspace().runningApplications
     }
     
-//    public var windows: [SRWindow]? {
-//        let list = self.impl.windows()
-//        return list.map() { SRWindow(runningApplication: $0 as! NSRunningApplication) }
-//    }
     public var windows: [SRWindow]? {
-        let list = SRWindowGetInfoList() as! [[String: AnyObject]]
+        guard let list = SRWindowGetInfoList() else { return nil }
+        
         return list.map {
-            (windowInfo) in
-            let windowID = (windowInfo["windowid"] as! NSNumber).intValue
-            let frame = NSMakeRect(CGFloat((windowInfo["bounds.origin.x"] as! NSNumber).floatValue),
-                CGFloat((windowInfo["bounds.origin.y"] as! NSNumber).floatValue),
-                CGFloat((windowInfo["bounds.size.width"] as! NSNumber).floatValue),
-                CGFloat((windowInfo["bounds.size.height"] as! NSNumber).floatValue))
-            let pid = (windowInfo["pid"] as! NSNumber).intValue
-            
-            return SRWindow(windowID: windowID, frame: frame, pid: pid)
+            SRWindow(infoDictionary: $0)
         }
+    }
+    
+    public func windows(pid: pid_t) -> [SRWindow]? {
+        guard let windows = self.windows else { return nil }
+        
+        var result = [SRWindow]()
+        
+        for window in windows {
+            if window.pid == pid {
+                result.append(window)
+            }
+        }
+        
+        return result
     }
     
     public var applicationWindows: [SRApplicationWindow]? {
@@ -65,25 +79,32 @@ public class SRWindowManager: CustomDebugStringConvertible, SRWindowManagerImplD
         return results
     }
     
-    public func startDetectWindowActivating() {
-        self.impl.startDetect()
+    public func startDetectWindowActivating(handler: SRWindowActivatingHandler) {
+        self.detectingHandler = handler
+        self.nc.addObserverForName(NSWorkspaceDidActivateApplicationNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
+            (notification) -> Void in
+            let userInfo = notification.userInfo as! [String: AnyObject]
+            if let app = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication {
+                let window = SRApplicationWindow(runningApplication: app)
+                
+                guard let handler = self.detectingHandler else { return }
+                handler(window)
+            }
+        })
+        self.detecting = true
     }
     
     public func stopDetectWindowActivating() {
-        self.impl.stopDetect()
+        if self.detecting == false { return }
+        
+        self.detectingHandler = nil
+        self.nc.removeObserver(self)
+        self.detecting = false
     }
     
     public var debugDescription: String {
-        return "<SRWindowManager>"
-    }
-    
-    // MARK: - Delegation of Objective-C Implementations
-    
-    @objc public func windowManagerImpl(windowManagerImpl: SRWindowManagerImpl!, detectWindowActivating runningApplication: NSRunningApplication!) {
-        let window = SRApplicationWindow(runningApplication: runningApplication)
-        if let d = self.delegate {
-            d.windowManager(self, detectWindowActivating: window)
-        }
+        let info = self.detecting ? " [DETECTING WINDOW ACTIVATION]" : ""
+        return "<SRWindowManager\(info)>"
     }
 }
 

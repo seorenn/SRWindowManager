@@ -9,25 +9,29 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
-NSArray *SRWindowGetInfoList();
-NSImage *SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
+NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList();
+NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
 
-@class SRWindowManagerImpl;
+#pragma mark - Accessibility Wrappers
 
-@protocol SRWindowManagerImplDelegate /* <NSObject>*/
-@optional
-- (void)windowManagerImpl:(SRWindowManagerImpl *)windowManagerImpl detectWindowActivating:(NSRunningApplication *)runningApplication;
-@end
+NSDictionary<NSString *, id> * _Nullable SRWindowGetFrontmostInfo();
 
-@interface SRWindowManagerImpl : NSObject
-
-@property (nonatomic, readonly) BOOL detecting;
-@property (nonatomic, strong) id<SRWindowManagerImplDelegate> delegate;
-
-- (void)startDetect;
-- (void)stopDetect;
-
-- (NSArray *)windows;
-- (NSArray *)windowInfoList;
-
-@end
+//@class SRWindowManagerImpl;
+//
+//@protocol SRWindowManagerImplDelegate /* <NSObject>*/
+//@optional
+//- (void)windowManagerImpl:(SRWindowManagerImpl *)windowManagerImpl detectWindowActivating:(NSRunningApplication *)runningApplication;
+//@end
+//
+//@interface SRWindowManagerImpl : NSObject
+//
+//@property (nonatomic, readonly) BOOL detecting;
+//@property (nonatomic, strong) id<SRWindowManagerImplDelegate> delegate;
+//
+//- (void)startDetect;
+//- (void)stopDetect;
+//
+//- (NSArray *)windows;
+//- (NSArray *)windowInfoList;
+//
+//@end

@@ -9,26 +9,54 @@
 #if os(OSX)
     
 import Cocoa
+import SRWindowManagerPrivates
 
-    /*
-    NSDictionary *info = @{ @"name": name,
-    @"bounds.origin.x": [NSNumber numberWithFloat:bounds.origin.x],
-    @"bounds.origin.y": [NSNumber numberWithFloat:bounds.origin.y],
-    @"bounds.size.width": [NSNumber numberWithFloat:bounds.size.width],
-    @"bounds.size.height": [NSNumber numberWithFloat:bounds.size.height],
-    @"pid": [NSNumber numberWithInt:pid],
-    @"number": [NSNumber numberWithInt:number] };
+/* Wraps belows:
+    enum {
+        kCGWindowSharingNone      = 0,
+        kCGWindowSharingReadOnly  = 1,
+        kCGWindowSharingReadWrite = 2
+    };
+ */
+public enum SRWindowSharingState: Int {
+    case None = 0
+    case ReadOnly = 1
+    case ReadWrite = 2
+}
 
-*/
-public class SRWindow {
-    let windowID: Int32
-    let frame: NSRect
-    let pid: pid_t
+public class SRWindow: CustomDebugStringConvertible {
+    public let windowID: Int32
+    public let frame: NSRect
+    public let pid: pid_t
+    public let sharingState: SRWindowSharingState
     
-    public init(windowID: Int32, frame: NSRect, pid: pid_t) {
-        self.windowID = windowID
-        self.frame = frame
-        self.pid = pid
+    public var applicationWindow: SRApplicationWindow {
+        return SRApplicationWindow(pid: self.pid)
+    }
+    
+    public init(infoDictionary: [String: AnyObject]) {
+        self.windowID = (infoDictionary["windowid"] as! NSNumber).intValue
+        self.frame = NSMakeRect(CGFloat((infoDictionary["bounds.origin.x"] as! NSNumber).floatValue),
+                                CGFloat((infoDictionary["bounds.origin.y"] as! NSNumber).floatValue),
+                                CGFloat((infoDictionary["bounds.size.width"] as! NSNumber).floatValue),
+                                CGFloat((infoDictionary["bounds.size.height"] as! NSNumber).floatValue))
+        self.pid = (infoDictionary["pid"] as! NSNumber).intValue
+        
+        let sharingRawValue = Int((infoDictionary["sharingstate"] as! NSNumber).intValue)
+        if let ss = SRWindowSharingState(rawValue: sharingRawValue) {
+            self.sharingState = ss
+        } else {
+            self.sharingState = .None
+        }
+    }
+    
+    public var screenImage: NSImage? {
+        return SRWindowCaptureScreen(self.windowID, self.frame)
+    }
+    
+    public var debugDescription: String {
+        let frameString = "{ \(self.frame.origin.x), \(self.frame.origin.y) }, { \(self.frame.size.width), \(self.frame.size.height) }"
+        return "<SRWindow ID[\(self.windowID)] PID[\(self.pid)] Frame[\(frameString)]>"
     }
 }
     
@@ -48,7 +76,7 @@ public class SRApplicationWindow: CustomDebugStringConvertible {
     private var boundsValue: NSRect?
     private var nameValue: String?
     
-    public init(infoDictionary: [String:AnyObject]) {
+    init(infoDictionary: [String:AnyObject]) {
         self.runningApplication = nil
         
         self.numberValue = infoDictionary["number"] as? Int
@@ -80,7 +108,7 @@ public class SRApplicationWindow: CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
-        return "<SRWindow: \(self.localizedName)(\(self.pid))>"
+        return "<SRApplicationWindow: \(self.localizedName)(PID:\(self.pid))>"
     }
 }
     
