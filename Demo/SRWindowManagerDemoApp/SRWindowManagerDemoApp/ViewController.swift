@@ -22,16 +22,14 @@ class ViewController: NSViewController {
 
         // Do any additional setup after loading the view.
         SRWindowManager.sharedInstance.startDetectWindowActivating {
-            (app) in
-            let text = "Current Application Window: \(app)\n"
+            (window) in
+            let text = "Current Application Window: \(window)\n"
             
             self.textView.stringValue = text
-            
-            if let windows = SRWindowManager.sharedInstance.windows(app.pid) {
-                for window in windows where window.frame.size.width > 0 && window.frame.size.height > 0 {
-                    self.imageView.image = window.screenImage
-                    break   // shows first image only
-                }
+
+            let rect = window.frame
+            if rect.size.width > 0 && rect.size.height > 0 {
+                self.imageView.image = window.screenImage
             } else {
                 self.imageView.image = nil
             }

@@ -12,6 +12,7 @@
 		8A03F2A61B6A176A0061C349 /* SRWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */; };
 		8A03F2A91B6A19370061C349 /* SRWindowManagerImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8A03F2AA1B6A19370061C349 /* SRWindowManagerImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */; };
+		8AD2256F1BA2B45400FFF32E /* SRApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD2256E1BA2B45400FFF32E /* SRApplication.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRWindowManagerImpl.h; path = Sources/SRWindowManagerImpl.h; sourceTree = "<group>"; };
 		8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWindowManagerImpl.m; path = Sources/SRWindowManagerImpl.m; sourceTree = "<group>"; };
 		8A494BE11B9FF89900CA1777 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		8AD2256E1BA2B45400FFF32E /* SRApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRApplication.swift; path = Sources/SRApplication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				8A494BE01B9FF89900CA1777 /* SRWindowManagerPrivates */,
+				8AD2256E1BA2B45400FFF32E /* SRApplication.swift */,
 				8A03F2A31B6A15420061C349 /* SRWindow.swift */,
 				8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */,
 				8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */,
@@ -166,6 +169,7 @@
 				8A03F2AA1B6A19370061C349 /* SRWindowManagerImpl.m in Sources */,
 				8A03F2A61B6A176A0061C349 /* SRWindowManager.swift in Sources */,
 				8A03F2A41B6A15420061C349 /* SRWindow.swift in Sources */,
+				8AD2256F1BA2B45400FFF32E /* SRApplication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

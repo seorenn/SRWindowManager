@@ -9,6 +9,8 @@
 #import "SRWindowManagerImpl.h"
 #import <Carbon/Carbon.h>
 
+extern AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
+
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList() {
     CGWindowListOption listOptions;
     listOptions = kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements;
@@ -56,7 +58,7 @@ NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList() {
     return list;
 }
 
-NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds) {
+NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds) {
     CGImageRef cfimage = NULL;
     
     cfimage = CGWindowListCreateImage(bounds, kCGWindowListOptionAll, windowID, kCGWindowImageDefault);
@@ -67,6 +69,17 @@ NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds) {
     
     return image;
 }
+
+CGWindowID SRWindowGetID(AXUIElementRef _Nonnull windowElement) {
+    CGWindowID windowID = 0;
+    _AXUIElementGetWindow(windowElement, &windowID);
+    
+    return windowID;
+}
+
+//NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetApplicationWindows(pid_t pid) {
+//    
+//}
 
 // Private
 AXUIElementRef SRWindowCopyElementAttribute(AXUIElementRef element, CFStringRef attribute) {
@@ -133,6 +146,22 @@ CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement) {
         result = CGRectMake(position.x, position.y, size.width, size.height);
     }
     
+    return result;
+}
+
+CFArrayRef _Nullable SRWindowCopyApplicationWindows(AXUIElementRef applicationElement) {
+    CFArrayRef result = NULL;
+
+    AXError error = AXUIElementCopyAttributeValue(applicationElement, kAXWindowAttribute, (CFTypeRef *)&result);
+    
+    if (error != kAXErrorSuccess) { return nil; }
+    return result;
+}
+
+AXUIElementRef _Nullable SRWindowCopyWindowElementFromArray(CFArrayRef _Nonnull theArray, int index) {
+    AXUIElementRef result = NULL;
+    
+    result = (AXUIElementRef)CFArrayGetValueAtIndex(theArray, index);
     return result;
 }
 

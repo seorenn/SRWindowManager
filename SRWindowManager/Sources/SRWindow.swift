@@ -29,28 +29,43 @@ public enum SRMouseButtonType {
 }
     
 public class SRWindow: CustomDebugStringConvertible {
-    public let windowID: Int32
-    public let frame: NSRect
+    public let windowID: CGWindowID
+//    public let frame: NSRect
     public let pid: pid_t
-    public let sharingState: SRWindowSharingState
+//    public let sharingState: SRWindowSharingState
+    public var windowElement: AXUIElementRef?
     
-    public var applicationWindow: SRApplicationWindow {
-        return SRApplicationWindow(pid: self.pid)
+//    public var applicationWindow: SRApplicationWindow {
+//        return SRApplicationWindow(pid: self.pid)
+//    }
+    
+//    public init(infoDictionary: [String: AnyObject]) {
+//        self.windowID = (infoDictionary["windowid"] as! NSNumber).intValue
+//        self.frame = NSMakeRect(CGFloat((infoDictionary["bounds.origin.x"] as! NSNumber).floatValue),
+//                                CGFloat((infoDictionary["bounds.origin.y"] as! NSNumber).floatValue),
+//                                CGFloat((infoDictionary["bounds.size.width"] as! NSNumber).floatValue),
+//                                CGFloat((infoDictionary["bounds.size.height"] as! NSNumber).floatValue))
+//        self.pid = (infoDictionary["pid"] as! NSNumber).intValue
+//        
+//        let sharingRawValue = Int((infoDictionary["sharingstate"] as! NSNumber).intValue)
+//        if let ss = SRWindowSharingState(rawValue: sharingRawValue) {
+//            self.sharingState = ss
+//        } else {
+//            self.sharingState = .None
+//        }
+//    }
+    
+    init(pid: pid_t, windowElement: AXUIElementRef) {
+        self.pid = pid
+        self.windowElement = windowElement
+        self.windowID = SRWindowGetID(windowElement)
     }
     
-    public init(infoDictionary: [String: AnyObject]) {
-        self.windowID = (infoDictionary["windowid"] as! NSNumber).intValue
-        self.frame = NSMakeRect(CGFloat((infoDictionary["bounds.origin.x"] as! NSNumber).floatValue),
-                                CGFloat((infoDictionary["bounds.origin.y"] as! NSNumber).floatValue),
-                                CGFloat((infoDictionary["bounds.size.width"] as! NSNumber).floatValue),
-                                CGFloat((infoDictionary["bounds.size.height"] as! NSNumber).floatValue))
-        self.pid = (infoDictionary["pid"] as! NSNumber).intValue
-        
-        let sharingRawValue = Int((infoDictionary["sharingstate"] as! NSNumber).intValue)
-        if let ss = SRWindowSharingState(rawValue: sharingRawValue) {
-            self.sharingState = ss
+    public var frame: NSRect {
+        if let element = self.windowElement {
+            return SRWindowGetFrameOfWindowElement(element)
         } else {
-            self.sharingState = .None
+            return NSRect.null
         }
     }
     
@@ -103,56 +118,56 @@ public class SRWindow: CustomDebugStringConvertible {
     }
 }
     
-public class SRApplicationWindow: CustomDebugStringConvertible {
-    public let runningApplication: NSRunningApplication?
-
-    public init(runningApplication: NSRunningApplication) {
-        self.runningApplication = runningApplication
-    }
-    
-    public init(pid: pid_t) {
-        self.runningApplication = NSRunningApplication(processIdentifier: pid)!
-    }
-    
-    private var numberValue: Int?
-    private var pidValue: Int?
-    private var boundsValue: NSRect?
-    private var nameValue: String?
-    
-    init(infoDictionary: [String:AnyObject]) {
-        self.runningApplication = nil
-        
-        self.numberValue = infoDictionary["number"] as? Int
-        self.pidValue = infoDictionary["pid"] as? Int
-        self.boundsValue = NSMakeRect(
-            (infoDictionary["bounds.origin.x"] as! CGFloat),
-            (infoDictionary["bounds.origin.y"] as! CGFloat),
-            (infoDictionary["bounds.size.width"] as! CGFloat),
-            (infoDictionary["bounds.size.height"] as! CGFloat))
-        self.nameValue = infoDictionary["name"] as? String
-    }
-    
-    public var pid: pid_t {
-        if self.pidValue != nil { return pid_t(self.pidValue!) }
-        return self.runningApplication!.processIdentifier
-    }
-    
-    public var localizedName: String {
-        if self.nameValue != nil { return self.nameValue! }
-        return self.runningApplication!.localizedName!
-    }
-    
-    public var bundleIdentifier: String {
-        return self.runningApplication!.bundleIdentifier!
-    }
-    
-    public var icon: NSImage? {
-        return self.runningApplication?.icon
-    }
-    
-    public var debugDescription: String {
-        return "<SRApplicationWindow: \(self.localizedName)(PID:\(self.pid))>"
-    }
-}
+//public class SRApplicationWindow: CustomDebugStringConvertible {
+//    public let runningApplication: NSRunningApplication?
+//
+//    public init(runningApplication: NSRunningApplication) {
+//        self.runningApplication = runningApplication
+//    }
+//    
+//    public init(pid: pid_t) {
+//        self.runningApplication = NSRunningApplication(processIdentifier: pid)!
+//    }
+//    
+//    private var numberValue: Int?
+//    private var pidValue: Int?
+//    private var boundsValue: NSRect?
+//    private var nameValue: String?
+//    
+//    init(infoDictionary: [String:AnyObject]) {
+//        self.runningApplication = nil
+//        
+//        self.numberValue = infoDictionary["number"] as? Int
+//        self.pidValue = infoDictionary["pid"] as? Int
+//        self.boundsValue = NSMakeRect(
+//            (infoDictionary["bounds.origin.x"] as! CGFloat),
+//            (infoDictionary["bounds.origin.y"] as! CGFloat),
+//            (infoDictionary["bounds.size.width"] as! CGFloat),
+//            (infoDictionary["bounds.size.height"] as! CGFloat))
+//        self.nameValue = infoDictionary["name"] as? String
+//    }
+//    
+//    public var pid: pid_t {
+//        if self.pidValue != nil { return pid_t(self.pidValue!) }
+//        return self.runningApplication!.processIdentifier
+//    }
+//    
+//    public var localizedName: String {
+//        if self.nameValue != nil { return self.nameValue! }
+//        return self.runningApplication!.localizedName!
+//    }
+//    
+//    public var bundleIdentifier: String {
+//        return self.runningApplication!.bundleIdentifier!
+//    }
+//    
+//    public var icon: NSImage? {
+//        return self.runningApplication?.icon
+//    }
+//    
+//    public var debugDescription: String {
+//        return "<SRApplicationWindow: \(self.localizedName)(PID:\(self.pid))>"
+//    }
+//}
     
 #endif  // os(OSX)

@@ -12,12 +12,16 @@
 @import CoreGraphics;
 
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList();
-NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
+NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds);
 
 #pragma mark - Accessibility Wrappers
 
+CGWindowID SRWindowGetID(AXUIElementRef _Nonnull windowElement);
+CFArrayRef _Nullable SRWindowCopyApplicationWindows(AXUIElementRef _Nonnull applicationElement);
+AXUIElementRef _Nullable SRWindowCopyWindowElementFromArray(CFArrayRef _Nonnull theArray, int index);
 AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement();
 CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement);
+//NSString * _Nullable SRWindowGetTitleOfWindowElement(AXUIElementRef _Nonnull windowElement);
 BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect frame);
 
 #pragma mark - Handling Mouse
