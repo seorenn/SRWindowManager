@@ -24,6 +24,10 @@ public enum SRWindowSharingState: Int {
     case ReadWrite = 2
 }
 
+public enum SRMouseButtonType {
+    case Left, Right, Center
+}
+    
 public class SRWindow: CustomDebugStringConvertible {
     public let windowID: Int32
     public let frame: NSRect
@@ -57,6 +61,37 @@ public class SRWindow: CustomDebugStringConvertible {
     public var debugDescription: String {
         let frameString = "{ \(self.frame.origin.x), \(self.frame.origin.y) }, { \(self.frame.size.width), \(self.frame.size.height) }"
         return "<SRWindow ID[\(self.windowID)] PID[\(self.pid)] Frame[\(frameString)]>"
+    }
+    
+    private func convertButtonType(button: SRMouseButtonType) -> CGMouseButton {
+        switch (button) {
+        case SRMouseButtonType.Left:
+            return CGMouseButton.Left
+        case SRMouseButtonType.Right:
+            return CGMouseButton.Right
+        case SRMouseButtonType.Center:
+            return CGMouseButton.Center
+        }
+    }
+    
+    public func click(position: CGPoint, button: SRMouseButtonType) {
+        let btn = self.convertButtonType(button)
+        let point = CGPointMake(self.frame.origin.x + position.x, self.frame.origin.y + position.y)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            SRMousePostEvent(btn, .LeftMouseDown, point)
+            SRMousePostEvent(btn, .LeftMouseUp, point)
+        }
+    }
+
+    public func doubleClick(position: CGPoint, button: SRMouseButtonType) {
+        let btn = self.convertButtonType(button)
+        let point = CGPointMake(self.frame.origin.x + position.x, self.frame.origin.y + position.y)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            SRMousePostEvent(btn, .LeftMouseDown, point)
+            SRMousePostEvent(btn, .LeftMouseUp, point)
+            SRMousePostEvent(btn, .LeftMouseDown, point)
+            SRMousePostEvent(btn, .LeftMouseUp, point)
+        }
     }
 }
     

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
+@import CoreGraphics;
+
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList();
 NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
 
@@ -17,6 +19,10 @@ NSImage * _Nullable SRWindowCaptureScreen(SInt32 windowID, NSRect bounds);
 AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement();
 CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement);
 BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect frame);
+
+#pragma mark - Handling Mouse
+
+void SRMousePostEvent(CGMouseButton button, CGEventType type, const CGPoint point);
 
 //@class SRWindowManagerImpl;
 //

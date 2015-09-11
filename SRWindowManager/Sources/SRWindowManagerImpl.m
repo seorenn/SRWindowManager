@@ -165,6 +165,15 @@ BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect fra
     return (count == 2);
 }
 
+#pragma mark - Handling Mouse
+
+void SRMousePostEvent(CGMouseButton button, CGEventType type, const CGPoint point) {
+    CGEventRef event = CGEventCreateMouseEvent(NULL, type, point, button);
+    CGEventSetType(event, type);
+    CGEventPost(kCGHIDEventTap, event);
+    CFRelease(event);
+}
+
 //@implementation SRWindowManagerImpl
 //
 //@synthesize detecting = _detecting;
