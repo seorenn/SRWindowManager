@@ -74,12 +74,20 @@ public class SRWindow: CustomDebugStringConvertible {
         }
     }
     
+    private func convertMousePoint(position: CGPoint) -> CGPoint? {
+        let point = CGPointMake(self.frame.origin.x + position.x, self.frame.origin.y + position.y)
+        if CGRectContainsPoint(self.frame, point) == false { return nil }
+        
+        return point
+    }
+    
     public func click(position: CGPoint, button: SRMouseButtonType) {
         let btn = self.convertButtonType(button)
-        let point = CGPointMake(self.frame.origin.x + position.x, self.frame.origin.y + position.y)
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            SRMousePostEvent(btn, .LeftMouseDown, point)
-            SRMousePostEvent(btn, .LeftMouseUp, point)
+        if let point = self.convertMousePoint(position) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                SRMousePostEvent(btn, .LeftMouseDown, point)
+                SRMousePostEvent(btn, .LeftMouseUp, point)
+            }
         }
     }
 
