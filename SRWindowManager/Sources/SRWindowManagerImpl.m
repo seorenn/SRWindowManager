@@ -70,6 +70,51 @@ NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds) {
     return image;
 }
 
+//CFArrayRef _Nonnull SRWindowCreateWindowDescriptionInput(CGWindowID windowID) {
+//    CGWindowID array[1] = { windowID };
+//    CFArrayRef result = CFArrayCreate(kCFAllocatorDefault, (const void **)&array, 1, NULL);
+//
+//    return result;
+//}
+
+CFDictionaryRef _Nullable SRWindowCreateWindowDescription(CGWindowID windowID) {
+    CGWindowID windowIDArray[1] = { windowID };
+    CFArrayRef descriptionInput = CFArrayCreate(kCFAllocatorDefault, (const void **)&windowIDArray, 1, NULL);
+    CFArrayRef descriptions = CGWindowListCreateDescriptionFromArray(descriptionInput);
+    
+    if (descriptions == NULL || CFArrayGetCount(descriptions) <= 0) return NULL;
+    
+    CFDictionaryRef desc = CFArrayGetValueAtIndex(descriptions, 0);
+    CFRetain(desc);
+    
+    CFRelease(descriptionInput);
+    CFRelease(descriptions);
+    
+    return desc;
+}
+
+NSString * _Nonnull SRWindowGetWindowName(CGWindowID windowID) {
+    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
+    if (description == NULL) return @"";
+    
+    NSString *name = (__bridge NSString *)CFDictionaryGetValue(description, kCGWindowName);
+    CFRelease(description);
+    
+    return name;
+}
+
+NSString * _Nonnull SRWindowGetWindowOwnerName(CGWindowID windowID) {
+    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
+    if (description == NULL) return @"";
+    
+    NSString *name = (__bridge NSString *)CFDictionaryGetValue(description, kCGWindowOwnerName);
+    CFRelease(description);
+    
+    return name;
+}
+
+#pragma mark - Private API Interfaces
+
 CGWindowID SRWindowGetID(AXUIElementRef _Nonnull windowElement) {
     CGWindowID windowID = 0;
     _AXUIElementGetWindow(windowElement, &windowID);
@@ -77,6 +122,7 @@ CGWindowID SRWindowGetID(AXUIElementRef _Nonnull windowElement) {
     return windowID;
 }
 
+#pragma mark - Interfaces with Accessibility
 //NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetApplicationWindows(pid_t pid) {
 //    
 //}

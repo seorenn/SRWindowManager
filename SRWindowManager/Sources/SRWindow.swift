@@ -73,9 +73,17 @@ public class SRWindow: CustomDebugStringConvertible {
         return SRWindowCaptureScreen(self.windowID, self.frame)
     }
     
+    public var name: String {
+        return SRWindowGetWindowName(self.windowID)
+    }
+    
+    public var ownerName: String {
+        return SRWindowGetWindowOwnerName(self.windowID)
+    }
+    
     public var debugDescription: String {
         let frameString = "{ \(self.frame.origin.x), \(self.frame.origin.y) }, { \(self.frame.size.width), \(self.frame.size.height) }"
-        return "<SRWindow ID[\(self.windowID)] PID[\(self.pid)] Frame[\(frameString)]>"
+        return "<SRWindow \"\(self.name)\" ID[\(self.windowID)] PID[\(self.pid)] Frame[\(frameString)]>"
     }
     
     private func convertButtonType(button: SRMouseButtonType) -> CGMouseButton {
