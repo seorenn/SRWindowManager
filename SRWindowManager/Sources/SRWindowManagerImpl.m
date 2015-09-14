@@ -61,7 +61,7 @@ NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList() {
 NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds) {
     CGImageRef cfimage = NULL;
     
-    cfimage = CGWindowListCreateImage(bounds, kCGWindowListOptionAll, windowID, kCGWindowImageDefault);
+    cfimage = CGWindowListCreateImage(bounds, kCGWindowListOptionIncludingWindow, windowID, kCGWindowImageBoundsIgnoreFraming | kCGWindowImageShouldBeOpaque);
     if (cfimage == NULL) return nil;
     NSImage *image = [[NSImage alloc] initWithCGImage:cfimage size:bounds.size];
     
@@ -70,19 +70,16 @@ NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds) {
     return image;
 }
 
-//CFArrayRef _Nonnull SRWindowCreateWindowDescriptionInput(CGWindowID windowID) {
-//    CGWindowID array[1] = { windowID };
-//    CFArrayRef result = CFArrayCreate(kCFAllocatorDefault, (const void **)&array, 1, NULL);
-//
-//    return result;
-//}
-
 CFDictionaryRef _Nullable SRWindowCreateWindowDescription(CGWindowID windowID) {
     CGWindowID windowIDArray[1] = { windowID };
     CFArrayRef descriptionInput = CFArrayCreate(kCFAllocatorDefault, (const void **)&windowIDArray, 1, NULL);
     CFArrayRef descriptions = CGWindowListCreateDescriptionFromArray(descriptionInput);
     
-    if (descriptions == NULL || CFArrayGetCount(descriptions) <= 0) return NULL;
+    if (descriptions == NULL || CFArrayGetCount(descriptions) <= 0) {
+        CFRelease(descriptionInput);
+        if (descriptions) { CFRelease(descriptions); }
+        return NULL;
+    }
     
     CFDictionaryRef desc = CFArrayGetValueAtIndex(descriptions, 0);
     CFRetain(desc);
