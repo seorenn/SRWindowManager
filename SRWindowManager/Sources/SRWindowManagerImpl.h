@@ -11,6 +11,8 @@
 
 @import CoreGraphics;
 
+void SRWindowRequestAccessibility();
+
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList();
 NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds);
 CFArrayRef _Nonnull SRWindowCreateWindowDescriptionInput(CGWindowID windowID);

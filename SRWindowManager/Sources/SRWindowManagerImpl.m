@@ -11,6 +11,36 @@
 
 extern AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
 
+void SRWindowLogUIElementCopyAttributeError(NSString *prefix, AXError error) {
+    switch (error) {
+        case kAXErrorAttributeUnsupported:
+            NSLog(@"%@ UIElementCopyAttributeError: Attribute Unsupported", prefix);
+            break;
+        case kAXErrorNoValue:
+            NSLog(@"%@ UIElementCopyAttributeError: No Value", prefix);
+            break;
+        case kAXErrorIllegalArgument:
+            NSLog(@"%@ UIElementCopyAttributeError: Illegal Argument", prefix);
+            break;
+        case kAXErrorInvalidUIElement:
+            NSLog(@"%@ UIElementCopyAttributeError: Invalid UI Element", prefix);
+            break;
+        case kAXErrorCannotComplete:
+            NSLog(@"%@ UIElementCopyAttributeError: Cannot Complete", prefix);
+            break;
+        case kAXErrorNotImplemented:
+            NSLog(@"%@ UIElementCopyAttributeError: Not Implemented", prefix);
+            break;
+        default:
+            NSLog(@"%@ UIElementCopyAttributeError: Unknown(%d)", prefix, error);
+    }
+}
+
+void SRWindowRequestAccessibility() {
+    NSDictionary *options = @{ (__bridge id)kAXTrustedCheckOptionPrompt: @YES };
+    AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options);
+}
+
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList() {
     CGWindowListOption listOptions;
     listOptions = kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements;
@@ -195,9 +225,14 @@ CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement) {
 CFArrayRef _Nullable SRWindowCopyApplicationWindows(AXUIElementRef applicationElement) {
     CFArrayRef result = NULL;
 
-    AXError error = AXUIElementCopyAttributeValue(applicationElement, kAXWindowAttribute, (CFTypeRef *)&result);
+    AXError error = AXUIElementCopyAttributeValue(applicationElement, kAXWindowsAttribute, (CFTypeRef *)&result);
     
-    if (error != kAXErrorSuccess) { return nil; }
+    if (error != kAXErrorSuccess) {
+#if DEBUG
+        SRWindowLogUIElementCopyAttributeError(@"SRWindowCopyApplicationWindows", error);
+#endif
+        return nil;
+    }
     return result;
 }
 

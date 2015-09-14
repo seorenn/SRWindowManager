@@ -27,6 +27,10 @@ public class SRWindowManager: CustomDebugStringConvertible {
         return AXIsProcessTrustedWithOptions(nil)
     }
     
+    public class func requestAccessibility() {
+        SRWindowRequestAccessibility()
+    }
+    
     public class func openAccessibilityAccessDialogWindow() {
         let script = "tell application \"System Preferences\" \n reveal anchor \"Privacy_Accessibility\" of pane id \"com.apple.preference.security\" \n activate \n end tell"
         //let script_for_10_8_or_lower = "tell application \"System Preferences\" \n set the current pane to pane id \"com.apple.preference.universalaccess\" \n activate \n end tell"
@@ -42,50 +46,11 @@ public class SRWindowManager: CustomDebugStringConvertible {
         self.stopAll()
     }
     
-    public var runningApplications: [NSRunningApplication]? {
-        return NSWorkspace.sharedWorkspace().runningApplications
-    }
-    
-    public var applications: [SRApplication] {
+    public class var applications: [SRApplication] {
         return NSWorkspace.sharedWorkspace().runningApplications.map {
             SRApplication(runningApplication: $0)
         }
     }
-    
-//    public var windows: [SRWindow]? {
-//        guard let list = SRWindowGetInfoList() else { return nil }
-//        
-//        return list.map {
-//            SRWindow(infoDictionary: $0)
-//        }
-//    }
-    
-//    public func windows(pid: pid_t) -> [SRWindow]? {
-//        guard let windows = self.windows else { return nil }
-//        
-//        var result = [SRWindow]()
-//        
-//        for window in windows {
-//            if window.pid == pid {
-//                result.append(window)
-//            }
-//        }
-//        
-//        return result
-//    }
-    
-//    public var applicationWindows: [SRApplicationWindow]? {
-//        var results = [SRApplicationWindow]()
-//        
-//        if let procs = self.runningApplications {
-//            for proc in procs where proc.activationPolicy == .Regular {
-//                let window = SRApplicationWindow(runningApplication: proc)
-//                results.append(window)
-//            }
-//        }
-//
-//        return results
-//    }
     
     private func startDetector() {
         if self.detecting { return }
@@ -101,7 +66,7 @@ public class SRWindowManager: CustomDebugStringConvertible {
             }
             
             if let windowHandler = self.detectingWindowHandler {
-                guard let element = SRWindowGetFrontmostWindowElement()?.takeRetainedValue() else { return }
+                guard let element = SRWindowGetFrontmostWindowElement()?.takeUnretainedValue() else { return }
                 let window = SRWindow(pid: application.processIdentifier, windowElement: element)
                 windowHandler(window)
             }
