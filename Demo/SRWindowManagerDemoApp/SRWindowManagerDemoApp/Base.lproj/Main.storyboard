@@ -710,7 +710,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="9Rh-xJ-ri1" indentationPerLevel="16" outlineTableColumn="gZ2-2A-QKh" id="uQF-Po-l9d">
-                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="436"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="19"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -772,9 +772,37 @@
                                             <constraint firstItem="NQa-EO-o3z" firstAttribute="top" secondItem="ADE-jp-P0f" secondAttribute="top" id="dfJ-ZS-w16"/>
                                         </constraints>
                                     </customView>
-                                    <customView fixedFrame="YES" id="Dhl-x2-Izn">
+                                    <customView id="Dhl-x2-Izn">
                                         <rect key="frame" x="247" y="0.0" width="233" height="454"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4m-9J-vRh">
+                                                <rect key="frame" x="0.0" y="0.0" width="233" height="454"/>
+                                                <clipView key="contentView" id="mJc-XZ-4X6">
+                                                    <rect key="frame" x="1" y="1" width="231" height="452"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N6k-hf-2fD">
+                                                            <rect key="frame" x="0.0" y="358" width="181" height="94"/>
+                                                        </view>
+                                                    </subviews>
+                                                </clipView>
+                                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="trn-vN-f7N">
+                                                    <rect key="frame" x="1" y="437" width="231" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="M0T-j1-Up6">
+                                                    <rect key="frame" x="216" y="1" width="16" height="452"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                            </scrollView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="r4m-9J-vRh" secondAttribute="trailing" id="AE8-KS-IUx"/>
+                                            <constraint firstAttribute="bottom" secondItem="r4m-9J-vRh" secondAttribute="bottom" id="Gda-Dz-LR0"/>
+                                            <constraint firstItem="r4m-9J-vRh" firstAttribute="leading" secondItem="Dhl-x2-Izn" secondAttribute="leading" id="bcs-QA-QEO"/>
+                                            <constraint firstItem="r4m-9J-vRh" firstAttribute="top" secondItem="Dhl-x2-Izn" secondAttribute="top" id="p28-ha-BYS"/>
+                                        </constraints>
                                     </customView>
                                 </subviews>
                                 <holdingPriorities>
