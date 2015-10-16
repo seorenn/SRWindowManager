@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
@@ -677,17 +677,19 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="qf8-2D-w1i"/>
                                 </constraints>
+                                <animations/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="9YZ-NH-vwE">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qvb-aa-Fob">
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qvb-aa-Fob">
                                 <rect key="frame" x="326" y="-7" width="155" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="QvI-CA-ZlF"/>
                                 </constraints>
+                                <animations/>
                                 <buttonCell key="cell" type="push" title="Open Accessibility" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vCL-O8-hlq">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -706,12 +708,13 @@
                                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQa-EO-o3z">
                                                 <rect key="frame" x="0.0" y="0.0" width="237" height="454"/>
                                                 <clipView key="contentView" id="kxa-TG-LBw">
-                                                    <rect key="frame" x="1" y="17" width="235" height="436"/>
+                                                    <rect key="frame" x="1" y="0.0" width="235" height="453"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="9Rh-xJ-ri1" indentationPerLevel="16" outlineTableColumn="gZ2-2A-QKh" id="uQF-Po-l9d">
-                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="19"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="235" height="430"/>
                                                             <autoresizingMask key="autoresizingMask"/>
+                                                            <animations/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -749,19 +752,24 @@
                                                             </connections>
                                                         </outlineView>
                                                     </subviews>
+                                                    <animations/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
-                                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="zF6-Be-CdL">
+                                                <animations/>
+                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="zF6-Be-CdL">
                                                     <rect key="frame" x="1" y="119" width="223" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Zyy-fp-vSL">
+                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Zyy-fp-vSL">
                                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
                                                 </scroller>
                                                 <tableHeaderView key="headerView" id="9Rh-xJ-ri1">
-                                                    <rect key="frame" x="0.0" y="0.0" width="235" height="17"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="235" height="23"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
                                                 </tableHeaderView>
                                             </scrollView>
                                         </subviews>
@@ -771,6 +779,7 @@
                                             <constraint firstItem="NQa-EO-o3z" firstAttribute="leading" secondItem="ADE-jp-P0f" secondAttribute="leading" id="SIc-Hk-TmD"/>
                                             <constraint firstItem="NQa-EO-o3z" firstAttribute="top" secondItem="ADE-jp-P0f" secondAttribute="top" id="dfJ-ZS-w16"/>
                                         </constraints>
+                                        <animations/>
                                     </customView>
                                     <customView id="Dhl-x2-Izn">
                                         <rect key="frame" x="247" y="0.0" width="233" height="454"/>
@@ -784,16 +793,21 @@
                                                     <subviews>
                                                         <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N6k-hf-2fD">
                                                             <rect key="frame" x="0.0" y="358" width="181" height="94"/>
+                                                            <animations/>
                                                         </view>
                                                     </subviews>
+                                                    <animations/>
                                                 </clipView>
-                                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="trn-vN-f7N">
+                                                <animations/>
+                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="trn-vN-f7N">
                                                     <rect key="frame" x="1" y="437" width="231" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="M0T-j1-Up6">
-                                                    <rect key="frame" x="216" y="1" width="16" height="452"/>
+                                                    <rect key="frame" x="217" y="1" width="15" height="452"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <animations/>
                                                 </scroller>
                                             </scrollView>
                                         </subviews>
@@ -803,8 +817,10 @@
                                             <constraint firstItem="r4m-9J-vRh" firstAttribute="leading" secondItem="Dhl-x2-Izn" secondAttribute="leading" id="bcs-QA-QEO"/>
                                             <constraint firstItem="r4m-9J-vRh" firstAttribute="top" secondItem="Dhl-x2-Izn" secondAttribute="top" id="p28-ha-BYS"/>
                                         </constraints>
+                                        <animations/>
                                     </customView>
                                 </subviews>
+                                <animations/>
                                 <holdingPriorities>
                                     <real value="250"/>
                                     <real value="250"/>
@@ -822,6 +838,7 @@
                             <constraint firstItem="ypT-Ke-hI2" firstAttribute="top" secondItem="6Vb-NE-Xcv" secondAttribute="bottom" constant="5" id="uz4-0l-fDZ"/>
                             <constraint firstItem="6Vb-NE-Xcv" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="vcW-Nv-6rA"/>
                         </constraints>
+                        <animations/>
                     </view>
                     <connections>
                         <outlet property="openAccessbilityButton" destination="qvb-aa-Fob" id="Zs6-wd-TdS"/>
