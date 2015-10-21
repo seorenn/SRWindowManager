@@ -40,6 +40,21 @@ public class SRWindow: CustomDebugStringConvertible {
         self.windowID = SRWindowGetID(windowElement)
     }
     
+    init(windowElement: AXUIElementRef) {
+        // NOTE: This initializer not tested yet :-p
+        self.windowElement = windowElement
+        self.windowID = SRWindowGetID(windowElement)
+        
+        var pid: pid_t = 0
+        
+        // NOTE: You can use method 1
+        AXUIElementGetPid(windowElement, &pid)
+        self.pid = pid
+        
+        // NOTE: or method 2
+        //self.pid = SRWindowGetWindowOwnerPID(self.windowID)
+    }
+    
     public var frame: NSRect {
         if let element = self.windowElement {
             return SRWindowGetFrameOfWindowElement(element)

@@ -19,6 +19,7 @@ CFArrayRef _Nonnull SRWindowCreateWindowDescriptionInput(CGWindowID windowID);
 CFDictionaryRef _Nullable SRWindowCreateWindowDescription(CGWindowID windowID);
 NSString * _Nonnull SRWindowGetWindowName(CGWindowID windowID);
 NSString * _Nonnull SRWindowGetWindowOwnerName(CGWindowID windowID);
+pid_t SRWindowGetWindowOwnerPID(CGWindowID windowID);
 
 #pragma mark - Accessibility Wrappers
 
@@ -27,29 +28,9 @@ CFArrayRef _Nullable SRWindowCopyApplicationWindows(AXUIElementRef _Nonnull appl
 AXUIElementRef _Nullable SRWindowCopyWindowElementFromArray(CFArrayRef _Nonnull theArray, int index);
 AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement();
 CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement);
-//NSString * _Nullable SRWindowGetTitleOfWindowElement(AXUIElementRef _Nonnull windowElement);
 BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect frame);
 
 #pragma mark - Handling Mouse
 
 void SRMousePostEvent(CGMouseButton button, CGEventType type, const CGPoint point);
 
-//@class SRWindowManagerImpl;
-//
-//@protocol SRWindowManagerImplDelegate /* <NSObject>*/
-//@optional
-//- (void)windowManagerImpl:(SRWindowManagerImpl *)windowManagerImpl detectWindowActivating:(NSRunningApplication *)runningApplication;
-//@end
-//
-//@interface SRWindowManagerImpl : NSObject
-//
-//@property (nonatomic, readonly) BOOL detecting;
-//@property (nonatomic, strong) id<SRWindowManagerImplDelegate> delegate;
-//
-//- (void)startDetect;
-//- (void)stopDetect;
-//
-//- (NSArray *)windows;
-//- (NSArray *)windowInfoList;
-//
-//@end

@@ -40,7 +40,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         SRWindowManager.sharedInstance.startDetectWindowActivating {
             (window) in
             let text = "Current Application Window: \(window)\n"
-            
+            print(text)
         }
         
         self.refresh()

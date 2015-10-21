@@ -23,6 +23,10 @@ public class SRWindowManager: CustomDebugStringConvertible {
     private var detectingWindowHandler: SRWindowActivatingWindowHandler?
     private var detectingApplicationHandler: SRWindowActivatingApplicationHandler?
     
+    private lazy var pointer: UnsafeMutablePointer<Void> = {
+        return UnsafeMutablePointer<Void>(Unmanaged.passUnretained(self).toOpaque())
+        }()
+
     public class var available: Bool {
         return AXIsProcessTrustedWithOptions(nil)
     }
@@ -57,8 +61,12 @@ public class SRWindowManager: CustomDebugStringConvertible {
         
         self.nc.addObserverForName(NSWorkspaceDidActivateApplicationNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
             (notification) -> Void in
-            guard let userInfo = notification.userInfo as? [String: AnyObject] else { return }
-            guard let application = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication else { return }
+            guard let userInfo = notification.userInfo as? [String: AnyObject] else {
+                return
+            }
+            guard let application = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication else {
+                return
+            }
             
             if let appHandler = self.detectingApplicationHandler {
                 let app = SRApplication(runningApplication: application)
@@ -66,7 +74,9 @@ public class SRWindowManager: CustomDebugStringConvertible {
             }
             
             if let windowHandler = self.detectingWindowHandler {
-                guard let element = SRWindowGetFrontmostWindowElement()?.takeUnretainedValue() else { return }
+                guard let element = SRWindowGetFrontmostWindowElement()?.takeUnretainedValue() else {
+                    return
+                }
                 let window = SRWindow(pid: application.processIdentifier, windowElement: element)
                 windowHandler(window)
             }
