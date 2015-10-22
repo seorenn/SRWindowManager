@@ -12,7 +12,6 @@ import Cocoa
 import SRWindowManagerPrivates
 
 public typealias SRWindowActivatingApplicationHandler = (SRApplication) -> ()
-public typealias SRWindowActivatingWindowHandler = (SRWindow) -> ()
 
 public class SRWindowManager: CustomDebugStringConvertible {
     public static let sharedInstance = SRWindowManager()
@@ -20,7 +19,6 @@ public class SRWindowManager: CustomDebugStringConvertible {
     public private(set) var detecting = false
     
     private let nc = NSWorkspace.sharedWorkspace().notificationCenter
-    private var detectingWindowHandler: SRWindowActivatingWindowHandler?
     private var detectingApplicationHandler: SRWindowActivatingApplicationHandler?
     
     private lazy var pointer: UnsafeMutablePointer<Void> = {
@@ -63,6 +61,11 @@ public class SRWindowManager: CustomDebugStringConvertible {
         return window as! AXUIElementRef?
     }
     
+    public var frontmostWindow: SRWindow? {
+        guard let element = self.frontmostWindowElement else { return nil }
+        return SRWindow(windowElement: element)
+    }
+    
     public init() { }
     
     deinit {
@@ -96,28 +99,9 @@ public class SRWindowManager: CustomDebugStringConvertible {
                 let app = SRApplication(runningApplication: application)
                 appHandler(app)
             }
-            
-            if let windowHandler = self.detectingWindowHandler {
-                //guard let element = SRWindowGetFrontmostWindowElement()?.takeUnretainedValue() else {
-                guard let element = self.frontmostWindowElement else {
-                    print("Failed to get frontmost window")
-//                    
-//                    if let _ = self.frontmostWindowElement {
-//                        print("I've tried another way, and it succeeded")
-//                    }
-                    return
-                }
-                let window = SRWindow(pid: application.processIdentifier, windowElement: element)
-                windowHandler(window)
-            }
         })
             
         self.detecting = true
-    }
-    
-    public func startDetectWindowActivating(handler: SRWindowActivatingWindowHandler) {
-        self.detectingWindowHandler = handler
-        self.startDetector()
     }
     
     public func startDetectApplicationActivating(handler: SRWindowActivatingApplicationHandler) {
@@ -128,7 +112,6 @@ public class SRWindowManager: CustomDebugStringConvertible {
     public func stopAll() {
         if self.detecting == false { return }
         
-        self.detectingWindowHandler = nil
         self.detectingApplicationHandler = nil
         
         self.nc.removeObserver(self)

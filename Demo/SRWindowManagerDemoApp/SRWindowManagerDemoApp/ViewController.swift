@@ -37,10 +37,12 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         }
         
         // Do any additional setup after loading the view.
-        SRWindowManager.sharedInstance.startDetectWindowActivating {
-            (window) in
-            let text = "Current Application Window: \(window)\n"
-            print(text)
+        
+        SRWindowManager.sharedInstance.startDetectApplicationActivating { (app) -> () in
+            print("App Activation: \(app)")
+            print("App Windows: \(app.windows)")
+            guard let window = SRWindowManager.sharedInstance.frontmostWindow else { return }
+            print("Frontmost Window: \(window)")
         }
         
         self.refresh()
