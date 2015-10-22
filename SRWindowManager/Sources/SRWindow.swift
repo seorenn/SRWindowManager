@@ -31,7 +31,6 @@ public enum SRMouseButtonType {
 public class SRWindow: CustomDebugStringConvertible {
     public let windowID: CGWindowID
     public let pid: pid_t
-//    public let sharingState: SRWindowSharingState
     public var windowElement: AXUIElementRef?
     
     init(pid: pid_t, windowElement: AXUIElementRef) {
@@ -56,11 +55,62 @@ public class SRWindow: CustomDebugStringConvertible {
     }
     
     public var frame: NSRect {
-        if let element = self.windowElement {
-            return SRWindowGetFrameOfWindowElement(element)
-        } else {
-            return NSRect.null
+        get {
+            guard let element = self.windowElement else { return NSRect.null }
+            
+            var positionObject: CFTypeRef? = nil
+            if AXUIElementCopyAttributeValue(element, kAXPositionAttribute, &positionObject) != .Success {
+                return NSRect.null
+            }
+            
+            var sizeObject: CFTypeRef? = nil
+            if AXUIElementCopyAttributeValue(element, kAXSizeAttribute, &sizeObject) != .Success {
+                return NSRect.null
+            }
+            
+            guard let posPtr = positionObject, let sizePtr = sizeObject else {
+                return NSRect.null
+            }
+            
+            var size = CGSize()
+            var position = CGPoint()
+            AXValueGetValue(posPtr as! AXValue, AXValueType(rawValue: kAXValueCGPointType)!, &position)
+            AXValueGetValue(sizePtr as! AXValue, AXValueType(rawValue: kAXValueCGSizeType)!, &size)
+            
+            return CGRectMake(position.x, position.y, size.width, size.height)
         }
+        set {
+            guard let element = self.windowElement else { return }
+            
+            var positionInput = newValue.origin
+            var sizeInput = newValue.size
+            guard let positionValue = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &positionInput),
+                let sizeValue = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &sizeInput)
+                else { return }
+            
+            AXUIElementSetAttributeValue(element, kAXPositionAttribute, positionValue.takeUnretainedValue())
+            AXUIElementSetAttributeValue(element, kAXSizeAttribute, sizeValue.takeUnretainedValue())
+        }
+    }
+    
+    private var descriptionDictionary: [String: AnyObject]? {
+        let input = [self.windowID]
+        let inputPtr = UnsafeMutablePointer<UnsafePointer<Void>>(input)
+        let inputCFArray = CFArrayCreate(nil, inputPtr, input.count, nil)
+        
+        guard let cfarray = CGWindowListCreateDescriptionFromArray(inputCFArray)
+            where CFArrayGetCount(cfarray) > 0
+            else { return nil }
+        
+        let array = cfarray as NSArray
+        guard let descriptionCFDict = array.firstObject else { return nil }
+        let dict = descriptionCFDict as! NSDictionary
+        return dict as? [String: AnyObject]
+    }
+    
+    private func descriptionItem(key: CFString) -> AnyObject? {
+        guard let dict = self.descriptionDictionary else { return nil }
+        return dict[key as String]
     }
     
     public var screenImage: NSImage? {
@@ -68,16 +118,23 @@ public class SRWindow: CustomDebugStringConvertible {
     }
     
     public var name: String {
-        return SRWindowGetWindowName(self.windowID)
+        return self.descriptionItem(kCGWindowName) as? String ?? ""
     }
     
     public var ownerName: String {
-        return SRWindowGetWindowOwnerName(self.windowID)
+        return self.descriptionItem(kCGWindowOwnerName) as? String ?? ""
+    }
+    
+    public var sharingState: SRWindowSharingState {
+        guard let state = self.descriptionItem(kCGWindowSharingState) as? Int else {
+            return .None
+        }
+        
+        return SRWindowSharingState(rawValue: state)!
     }
     
     public var debugDescription: String {
-        let frameString = "{ \(self.frame.origin.x), \(self.frame.origin.y) }, { \(self.frame.size.width), \(self.frame.size.height) }"
-        return "<SRWindow \"\(self.name)\" ID[\(self.windowID)] PID[\(self.pid)] Frame[\(frameString)]>"
+        return "<SRWindow \"\(self.name)\" ID[\(self.windowID)] PID[\(self.pid)] Frame[\(self.frame)]>"
     }
     
     private func convertButtonType(button: SRMouseButtonType) -> CGMouseButton {

@@ -120,25 +120,25 @@ CFDictionaryRef _Nullable SRWindowCreateWindowDescription(CGWindowID windowID) {
     return desc;
 }
 
-NSString * _Nonnull SRWindowGetWindowName(CGWindowID windowID) {
-    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
-    if (description == NULL) return @"";
-    
-    NSString *name = (__bridge NSString *)CFDictionaryGetValue(description, kCGWindowName);
-    CFRelease(description);
-    
-    return name;
-}
+//NSString * _Nonnull SRWindowGetWindowName(CGWindowID windowID) {
+//    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
+//    if (description == NULL) return @"";
+//    
+//    NSString *name = (__bridge NSString *)CFDictionaryGetValue(description, kCGWindowName);
+//    CFRelease(description);
+//    
+//    return name;
+//}
 
-NSString * _Nonnull SRWindowGetWindowOwnerName(CGWindowID windowID) {
-    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
-    if (description == NULL) return @"";
-    
-    NSString *name = (__bridge NSString *)CFDictionaryGetValue(description, kCGWindowOwnerName);
-    CFRelease(description);
-    
-    return name;
-}
+//NSString * _Nonnull SRWindowGetWindowOwnerName(CGWindowID windowID) {
+//    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
+//    if (description == NULL) return @"";
+//    
+//    NSString *name = (__bridge NSString *)CFDictionaryGetValue(description, kCGWindowOwnerName);
+//    CFRelease(description);
+//    
+//    return name;
+//}
 
 pid_t SRWindowGetWindowOwnerPID(CGWindowID windowID) {
     CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
@@ -183,6 +183,8 @@ AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement() {
     if (focusedAppElement) {
         frontWindowElement = SRWindowCopyElementAttribute(focusedAppElement, kAXFocusedWindowAttribute);
         CFRelease(focusedAppElement);
+    } else {
+        NSLog(@"Failed to get Focused Application Attribute");
     }
     
     CFRelease(systemWideElement);
@@ -203,34 +205,34 @@ AXValueRef _Nullable SRWindowCopyElementValue(AXUIElementRef element, CFStringRe
     }
 }
 
-CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement) {
-    CGRect result = CGRectNull;
-    
-    CFTypeRef positionObject = SRWindowCopyElementValue(windowElement, kAXPositionAttribute, kAXValueCGPointType);
-    CFTypeRef sizeObject = SRWindowCopyElementValue(windowElement, kAXSizeAttribute, kAXValueCGSizeType);
-    
-    CGPoint position;
-    CGSize size;
-    int count = 0;
-    
-    if (positionObject) {
-        AXValueGetValue(positionObject, kAXValueCGPointType, (void *)&position);
-        CFRelease(positionObject);
-        count++;
-    }
-    
-    if (sizeObject) {
-        AXValueGetValue(sizeObject, kAXValueCGSizeType, (void *)&size);
-        CFRelease(sizeObject);
-        count++;
-    }
-    
-    if (count == 2) {
-        result = CGRectMake(position.x, position.y, size.width, size.height);
-    }
-    
-    return result;
-}
+//CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement) {
+//    CGRect result = CGRectNull;
+//    
+//    CFTypeRef positionObject = SRWindowCopyElementValue(windowElement, kAXPositionAttribute, kAXValueCGPointType);
+//    CFTypeRef sizeObject = SRWindowCopyElementValue(windowElement, kAXSizeAttribute, kAXValueCGSizeType);
+//    
+//    CGPoint position;
+//    CGSize size;
+//    int count = 0;
+//    
+//    if (positionObject) {
+//        AXValueGetValue(positionObject, kAXValueCGPointType, (void *)&position);
+//        CFRelease(positionObject);
+//        count++;
+//    }
+//    
+//    if (sizeObject) {
+//        AXValueGetValue(sizeObject, kAXValueCGSizeType, (void *)&size);
+//        CFRelease(sizeObject);
+//        count++;
+//    }
+//    
+//    if (count == 2) {
+//        result = CGRectMake(position.x, position.y, size.width, size.height);
+//    }
+//    
+//    return result;
+//}
 
 CFArrayRef _Nullable SRWindowCopyApplicationWindows(AXUIElementRef applicationElement) {
     CFArrayRef result = NULL;

@@ -44,6 +44,25 @@ public class SRWindowManager: CustomDebugStringConvertible {
         }
     }
     
+    private let systemWideElement = AXUIElementCreateSystemWide().takeUnretainedValue();
+    
+    private var frontmostWindowElement: AXUIElementRef? {
+        var app: CFTypeRef?
+        let res = AXUIElementCopyAttributeValue(self.systemWideElement, kAXFocusedApplicationAttribute, &app)
+        guard res == .Success else {
+            print("Failed to get focused application attribute: \(res)")
+            return nil
+        }
+        
+        var window: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(app! as! AXUIElementRef, NSAccessibilityFocusedWindowAttribute, &window) == .Success else {
+            print("Failed to get accessibility focused window attribute")
+            return nil
+        }
+        
+        return window as! AXUIElementRef?
+    }
+    
     public init() { }
     
     deinit {
@@ -61,10 +80,15 @@ public class SRWindowManager: CustomDebugStringConvertible {
         
         self.nc.addObserverForName(NSWorkspaceDidActivateApplicationNotification, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock: {
             (notification) -> Void in
+            
+            print("Workspace Did Activate Application Notification")
+            
             guard let userInfo = notification.userInfo as? [String: AnyObject] else {
+                print("There's no user informations.")
                 return
             }
             guard let application = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication else {
+                print("There's no application informations.")
                 return
             }
             
@@ -74,7 +98,13 @@ public class SRWindowManager: CustomDebugStringConvertible {
             }
             
             if let windowHandler = self.detectingWindowHandler {
-                guard let element = SRWindowGetFrontmostWindowElement()?.takeUnretainedValue() else {
+                //guard let element = SRWindowGetFrontmostWindowElement()?.takeUnretainedValue() else {
+                guard let element = self.frontmostWindowElement else {
+                    print("Failed to get frontmost window")
+//                    
+//                    if let _ = self.frontmostWindowElement {
+//                        print("I've tried another way, and it succeeded")
+//                    }
                     return
                 }
                 let window = SRWindow(pid: application.processIdentifier, windowElement: element)
