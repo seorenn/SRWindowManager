@@ -13,6 +13,9 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var statusLabel: NSTextField!
     @IBOutlet weak var openAccessbilityButton: NSButton!
+    @IBOutlet weak var contentScrollView: NSScrollView!
+    
+    var imageView: NSImageView!
     
     var items = [AppItem]()
     
@@ -60,6 +63,19 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         } else {
             SRWindowManager.requestAccessibility()
         }
+    }
+    
+    func setImage(image: NSImage?) {
+        guard let image = image else {
+            self.contentScrollView.documentView = nil
+            return
+        }
+        
+        let rect = CGRectMake(0, 0, image.size.width, image.size.height)
+        self.imageView = NSImageView(frame: rect)
+        self.imageView.image = image
+        
+        self.contentScrollView.documentView = imageView
     }
     
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
@@ -117,6 +133,8 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         else if item is SRWindow {
             print("This is SRWindow. Start process...")
             let window = item as! SRWindow
+            
+            self.setImage(window.screenImage)
         }
     }
     
