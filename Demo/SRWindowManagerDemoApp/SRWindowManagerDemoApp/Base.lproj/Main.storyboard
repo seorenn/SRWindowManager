@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -747,6 +747,7 @@
                                                                 </tableColumn>
                                                             </tableColumns>
                                                             <connections>
+                                                                <action selector="outlineCellSelected:" target="XfG-lQ-9wD" id="VAQ-r3-jKH"/>
                                                                 <outlet property="dataSource" destination="XfG-lQ-9wD" id="Z1R-26-yTJ"/>
                                                                 <outlet property="delegate" destination="XfG-lQ-9wD" id="Zrc-R9-YxQ"/>
                                                             </connections>
@@ -804,7 +805,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="M0T-j1-Up6">
+                                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="M0T-j1-Up6">
                                                     <rect key="frame" x="217" y="1" width="15" height="452"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
