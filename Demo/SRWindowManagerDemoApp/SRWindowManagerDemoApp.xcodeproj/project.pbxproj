@@ -15,7 +15,11 @@
 		8A03F2871B6A13F10061C349 /* SRWindowManagerDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2861B6A13F10061C349 /* SRWindowManagerDemoAppUITests.swift */; };
 		8A03F2A11B6A145C0061C349 /* SRWindowManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */; };
 		8A03F2A21B6A145C0061C349 /* SRWindowManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8A67C36A1BA6B7B900D4CBF3 /* AppItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67C3691BA6B7B900D4CBF3 /* AppItem.swift */; settings = {ASSET_TAGS = (); }; };
+		8A67C36A1BA6B7B900D4CBF3 /* AppItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67C3691BA6B7B900D4CBF3 /* AppItem.swift */; };
+		8AEFC3B71C0312FD00FD4E17 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFC3B61C0312FD00FD4E17 /* ImageView.swift */; };
+		8AEFC3BB1C05A32900FD4E17 /* FakeCursorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFC3B91C05A32900FD4E17 /* FakeCursorWindowController.swift */; };
+		8AEFC3BC1C05A32900FD4E17 /* FakeCursorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AEFC3BA1C05A32900FD4E17 /* FakeCursorWindowController.xib */; };
+		8AEFC3BE1C05A35600FD4E17 /* OverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFC3BD1C05A35600FD4E17 /* OverlayWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +76,10 @@
 		8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SRWindowManager.xcodeproj; path = ../../SRWindowManager.xcodeproj; sourceTree = "<group>"; };
 		8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SRWindowManager.framework; path = "/Users/hirenn/Library/Developer/Xcode/DerivedData/SRWindowManagerDemo-betoilrbdzlfrwdhteubfhuukolg/Build/Products/Debug/SRWindowManager.framework"; sourceTree = "<absolute>"; };
 		8A67C3691BA6B7B900D4CBF3 /* AppItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppItem.swift; sourceTree = "<group>"; };
+		8AEFC3B61C0312FD00FD4E17 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		8AEFC3B91C05A32900FD4E17 /* FakeCursorWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCursorWindowController.swift; sourceTree = "<group>"; };
+		8AEFC3BA1C05A32900FD4E17 /* FakeCursorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FakeCursorWindowController.xib; sourceTree = "<group>"; };
+		8AEFC3BD1C05A35600FD4E17 /* OverlayWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +139,10 @@
 				8A03F26F1B6A13F10061C349 /* Main.storyboard */,
 				8A03F2721B6A13F10061C349 /* Info.plist */,
 				8A67C3691BA6B7B900D4CBF3 /* AppItem.swift */,
+				8AEFC3B61C0312FD00FD4E17 /* ImageView.swift */,
+				8AEFC3B91C05A32900FD4E17 /* FakeCursorWindowController.swift */,
+				8AEFC3BA1C05A32900FD4E17 /* FakeCursorWindowController.xib */,
+				8AEFC3BD1C05A35600FD4E17 /* OverlayWindow.swift */,
 			);
 			path = SRWindowManagerDemoApp;
 			sourceTree = "<group>";
@@ -283,6 +295,7 @@
 			files = (
 				8A03F26E1B6A13F10061C349 /* Assets.xcassets in Resources */,
 				8A03F2711B6A13F10061C349 /* Main.storyboard in Resources */,
+				8AEFC3BC1C05A32900FD4E17 /* FakeCursorWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,8 +320,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AEFC3BB1C05A32900FD4E17 /* FakeCursorWindowController.swift in Sources */,
+				8AEFC3B71C0312FD00FD4E17 /* ImageView.swift in Sources */,
 				8A67C36A1BA6B7B900D4CBF3 /* AppItem.swift in Sources */,
 				8A03F26C1B6A13F10061C349 /* ViewController.swift in Sources */,
+				8AEFC3BE1C05A35600FD4E17 /* OverlayWindow.swift in Sources */,
 				8A03F26A1B6A13F10061C349 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

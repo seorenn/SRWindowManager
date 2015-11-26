@@ -137,6 +137,15 @@ public class SRWindow: CustomDebugStringConvertible {
         return "<SRWindow \"\(self.name)\" ID[\(self.windowID)] PID[\(self.pid)] Frame[\(self.frame)]>"
     }
     
+    public func activate() {
+        guard let app = NSRunningApplication(processIdentifier: self.pid) else {
+            print("Cannot get instance for pid \(self.pid)")
+            return
+        }
+        
+        app.activateWithOptions(.ActivateIgnoringOtherApps)
+    }
+    
     private func convertButtonType(button: SRMouseButtonType) -> CGMouseButton {
         switch (button) {
         case SRMouseButtonType.Left:
