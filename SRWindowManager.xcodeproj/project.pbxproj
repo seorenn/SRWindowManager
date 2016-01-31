@@ -8,12 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		8A03F2551B6A127F0061C349 /* SRWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A03F2541B6A127F0061C349 /* SRWindowManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A03F2A41B6A15420061C349 /* SRWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A31B6A15420061C349 /* SRWindow.swift */; };
+		8A03F2A61B6A176A0061C349 /* SRWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */; };
+		8A03F2A91B6A19370061C349 /* SRWindowManagerImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8A03F2AA1B6A19370061C349 /* SRWindowManagerImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */; };
+		8AD2256F1BA2B45400FFF32E /* SRApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD2256E1BA2B45400FFF32E /* SRApplication.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8A03F2511B6A127F0061C349 /* SRWindowManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRWindowManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A03F2541B6A127F0061C349 /* SRWindowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRWindowManager.h; sourceTree = "<group>"; };
 		8A03F2561B6A127F0061C349 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A03F2A31B6A15420061C349 /* SRWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRWindow.swift; path = Sources/SRWindow.swift; sourceTree = "<group>"; };
+		8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRWindowManager.swift; path = Sources/SRWindowManager.swift; sourceTree = "<group>"; };
+		8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRWindowManagerImpl.h; path = Sources/SRWindowManagerImpl.h; sourceTree = "<group>"; };
+		8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWindowManagerImpl.m; path = Sources/SRWindowManagerImpl.m; sourceTree = "<group>"; };
+		8A494BE11B9FF89900CA1777 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		8AD2256E1BA2B45400FFF32E /* SRApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRApplication.swift; path = Sources/SRApplication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +67,23 @@
 		8A03F25C1B6A12B40061C349 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8A494BE01B9FF89900CA1777 /* SRWindowManagerPrivates */,
+				8AD2256E1BA2B45400FFF32E /* SRApplication.swift */,
+				8A03F2A31B6A15420061C349 /* SRWindow.swift */,
+				8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */,
+				8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */,
+				8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */,
 			);
 			name = Sources;
+			sourceTree = "<group>";
+		};
+		8A494BE01B9FF89900CA1777 /* SRWindowManagerPrivates */ = {
+			isa = PBXGroup;
+			children = (
+				8A494BE11B9FF89900CA1777 /* module.modulemap */,
+			);
+			name = SRWindowManagerPrivates;
+			path = Sources/SRWindowManagerPrivates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,6 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A03F2551B6A127F0061C349 /* SRWindowManager.h in Headers */,
+				8A03F2A91B6A19370061C349 /* SRWindowManagerImpl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +125,7 @@
 		8A03F2481B6A127F0061C349 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Seorenn;
 				TargetAttributes = {
@@ -138,6 +166,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A03F2AA1B6A19370061C349 /* SRWindowManagerImpl.m in Sources */,
+				8A03F2A61B6A176A0061C349 /* SRWindowManager.swift in Sources */,
+				8A03F2A41B6A15420061C349 /* SRWindow.swift in Sources */,
+				8AD2256F1BA2B45400FFF32E /* SRApplication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +271,7 @@
 		8A03F25A1B6A127F0061C349 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -251,12 +284,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.seorenn.SRWindowManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/SRWindowManager/Sources";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		8A03F25B1B6A127F0061C349 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -269,6 +305,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.seorenn.SRWindowManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/SRWindowManager/Sources";
 			};
 			name = Release;
 		};
@@ -291,6 +328,7 @@
 				8A03F25B1B6A127F0061C349 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

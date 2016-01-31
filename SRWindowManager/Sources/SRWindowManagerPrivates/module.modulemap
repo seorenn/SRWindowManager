@@ -1,0 +1,4 @@
+module SRWindowManagerPrivates {
+    header "../SRWindowManagerImpl.h"
+    export *
+}
