@@ -9,7 +9,6 @@
 #if os(OSX)
     
 import Cocoa
-import SRWindowManagerPrivates
 
 /* SRWindowSharingState Wraps belows:
     enum {

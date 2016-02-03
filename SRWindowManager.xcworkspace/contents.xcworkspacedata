@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../SRWindowManager.xcodeproj">
+      location = "group:SRWindowManager/SRWindowManager.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SRWindowManagerDemoApp/SRWindowManagerDemoApp.xcodeproj">

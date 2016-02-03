@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import SRWindowManagerPrivates
 
 public class SRApplication: CustomDebugStringConvertible {
     public let runningApplication: NSRunningApplication
