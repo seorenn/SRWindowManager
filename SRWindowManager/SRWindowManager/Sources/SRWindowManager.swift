@@ -9,7 +9,6 @@
 #if os(OSX)
     
 import Cocoa
-import SRWindowManagerPrivates
 
 public typealias SRWindowActivatingApplicationHandler = (SRApplication) -> ()
 

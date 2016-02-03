@@ -13,9 +13,9 @@
 		8A03F2711B6A13F10061C349 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A03F26F1B6A13F10061C349 /* Main.storyboard */; };
 		8A03F27C1B6A13F10061C349 /* SRWindowManagerDemoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F27B1B6A13F10061C349 /* SRWindowManagerDemoAppTests.swift */; };
 		8A03F2871B6A13F10061C349 /* SRWindowManagerDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2861B6A13F10061C349 /* SRWindowManagerDemoAppUITests.swift */; };
-		8A03F2A11B6A145C0061C349 /* SRWindowManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */; };
-		8A03F2A21B6A145C0061C349 /* SRWindowManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8A67C36A1BA6B7B900D4CBF3 /* AppItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67C3691BA6B7B900D4CBF3 /* AppItem.swift */; };
+		8A9EAB061C61EA60004FCF9C /* SRWindowManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9EAB051C61EA4E004FCF9C /* SRWindowManager.framework */; };
+		8A9EAB071C61EA60004FCF9C /* SRWindowManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A9EAB051C61EA4E004FCF9C /* SRWindowManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8AEFC3B71C0312FD00FD4E17 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFC3B61C0312FD00FD4E17 /* ImageView.swift */; };
 		8AEFC3BB1C05A32900FD4E17 /* FakeCursorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEFC3B91C05A32900FD4E17 /* FakeCursorWindowController.swift */; };
 		8AEFC3BC1C05A32900FD4E17 /* FakeCursorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AEFC3BA1C05A32900FD4E17 /* FakeCursorWindowController.xib */; };
@@ -37,11 +37,18 @@
 			remoteGlobalIDString = 8A03F2651B6A13F10061C349;
 			remoteInfo = SRWindowManagerDemoApp;
 		};
-		8A03F2AE1B6A259D0061C349 /* PBXContainerItemProxy */ = {
+		8A9EAB041C61EA4E004FCF9C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */;
+			containerPortal = 8A9EAB001C61EA4E004FCF9C /* SRWindowManager.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8A03F2511B6A127F0061C349;
+			remoteInfo = SRWindowManager;
+		};
+		8A9EAB081C61EA60004FCF9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A9EAB001C61EA4E004FCF9C /* SRWindowManager.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A03F2501B6A127F0061C349;
 			remoteInfo = SRWindowManager;
 		};
 /* End PBXContainerItemProxy section */
@@ -53,7 +60,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8A03F2A21B6A145C0061C349 /* SRWindowManager.framework in Embed Frameworks */,
+				8A9EAB071C61EA60004FCF9C /* SRWindowManager.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,9 +80,8 @@
 		8A03F2821B6A13F10061C349 /* SRWindowManagerDemoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SRWindowManagerDemoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A03F2861B6A13F10061C349 /* SRWindowManagerDemoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRWindowManagerDemoAppUITests.swift; sourceTree = "<group>"; };
 		8A03F2881B6A13F10061C349 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SRWindowManager.xcodeproj; path = ../../SRWindowManager.xcodeproj; sourceTree = "<group>"; };
-		8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SRWindowManager.framework; path = "/Users/hirenn/Library/Developer/Xcode/DerivedData/SRWindowManagerDemo-betoilrbdzlfrwdhteubfhuukolg/Build/Products/Debug/SRWindowManager.framework"; sourceTree = "<absolute>"; };
 		8A67C3691BA6B7B900D4CBF3 /* AppItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppItem.swift; sourceTree = "<group>"; };
+		8A9EAB001C61EA4E004FCF9C /* SRWindowManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SRWindowManager.xcodeproj; path = ../SRWindowManager/SRWindowManager.xcodeproj; sourceTree = "<group>"; };
 		8AEFC3B61C0312FD00FD4E17 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		8AEFC3B91C05A32900FD4E17 /* FakeCursorWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCursorWindowController.swift; sourceTree = "<group>"; };
 		8AEFC3BA1C05A32900FD4E17 /* FakeCursorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FakeCursorWindowController.xib; sourceTree = "<group>"; };
@@ -87,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A03F2A11B6A145C0061C349 /* SRWindowManager.framework in Frameworks */,
+				8A9EAB061C61EA60004FCF9C /* SRWindowManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,8 +117,7 @@
 		8A03F25D1B6A13F10061C349 = {
 			isa = PBXGroup;
 			children = (
-				8A03F2A01B6A145C0061C349 /* SRWindowManager.framework */,
-				8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */,
+				8A9EAB001C61EA4E004FCF9C /* SRWindowManager.xcodeproj */,
 				8A03F2681B6A13F10061C349 /* SRWindowManagerDemoApp */,
 				8A03F27A1B6A13F10061C349 /* SRWindowManagerDemoAppTests */,
 				8A03F2851B6A13F10061C349 /* SRWindowManagerDemoAppUITests */,
@@ -165,10 +170,10 @@
 			path = SRWindowManagerDemoAppUITests;
 			sourceTree = "<group>";
 		};
-		8A03F2AB1B6A259D0061C349 /* Products */ = {
+		8A9EAB011C61EA4E004FCF9C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8A03F2AF1B6A259D0061C349 /* SRWindowManager.framework */,
+				8A9EAB051C61EA4E004FCF9C /* SRWindowManager.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8A9EAB091C61EA60004FCF9C /* PBXTargetDependency */,
 			);
 			name = SRWindowManagerDemoApp;
 			productName = SRWindowManagerDemoApp;
@@ -265,8 +271,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 8A03F2AB1B6A259D0061C349 /* Products */;
-					ProjectRef = 8A03F2941B6A14110061C349 /* SRWindowManager.xcodeproj */;
+					ProductGroup = 8A9EAB011C61EA4E004FCF9C /* Products */;
+					ProjectRef = 8A9EAB001C61EA4E004FCF9C /* SRWindowManager.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -279,11 +285,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8A03F2AF1B6A259D0061C349 /* SRWindowManager.framework */ = {
+		8A9EAB051C61EA4E004FCF9C /* SRWindowManager.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SRWindowManager.framework;
-			remoteRef = 8A03F2AE1B6A259D0061C349 /* PBXContainerItemProxy */;
+			remoteRef = 8A9EAB041C61EA4E004FCF9C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -357,6 +363,11 @@
 			isa = PBXTargetDependency;
 			target = 8A03F2651B6A13F10061C349 /* SRWindowManagerDemoApp */;
 			targetProxy = 8A03F2831B6A13F10061C349 /* PBXContainerItemProxy */;
+		};
+		8A9EAB091C61EA60004FCF9C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SRWindowManager;
+			targetProxy = 8A9EAB081C61EA60004FCF9C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -457,6 +468,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SRWindowManagerDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.seorenn.SRWindowManagerDemoApp;
@@ -469,6 +481,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SRWindowManagerDemoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.seorenn.SRWindowManagerDemoApp;
