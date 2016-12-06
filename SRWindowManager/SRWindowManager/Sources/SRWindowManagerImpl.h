@@ -16,6 +16,7 @@ void SRWindowRequestAccessibility();
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList();
 NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds);
 CFArrayRef _Nonnull SRWindowCreateWindowDescriptionInput(CGWindowID windowID);
+NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetDescriptions(CGWindowID windowID);
 CFDictionaryRef _Nullable SRWindowCreateWindowDescription(CGWindowID windowID);
 //NSString * _Nonnull SRWindowGetWindowName(CGWindowID windowID);
 //NSString * _Nonnull SRWindowGetWindowOwnerName(CGWindowID windowID);

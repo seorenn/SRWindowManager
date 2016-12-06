@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		8A03F2551B6A127F0061C349 /* SRWindowManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A03F2541B6A127F0061C349 /* SRWindowManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8A03F2A41B6A15420061C349 /* SRWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A31B6A15420061C349 /* SRWindow.swift */; };
+		8A03F2A41B6A15420061C349 /* SRWindowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A31B6A15420061C349 /* SRWindowInfo.swift */; };
 		8A03F2A61B6A176A0061C349 /* SRWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */; };
 		8A03F2A91B6A19370061C349 /* SRWindowManagerImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A03F2AA1B6A19370061C349 /* SRWindowManagerImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */; };
-		8AD2256F1BA2B45400FFF32E /* SRApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD2256E1BA2B45400FFF32E /* SRApplication.swift */; };
+		8AD2256F1BA2B45400FFF32E /* SRApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD2256E1BA2B45400FFF32E /* SRApplicationInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8A03F2511B6A127F0061C349 /* SRWindowManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SRWindowManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A03F2541B6A127F0061C349 /* SRWindowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRWindowManager.h; sourceTree = "<group>"; };
 		8A03F2561B6A127F0061C349 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8A03F2A31B6A15420061C349 /* SRWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRWindow.swift; path = Sources/SRWindow.swift; sourceTree = "<group>"; };
+		8A03F2A31B6A15420061C349 /* SRWindowInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRWindowInfo.swift; path = Sources/SRWindowInfo.swift; sourceTree = "<group>"; };
 		8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRWindowManager.swift; path = Sources/SRWindowManager.swift; sourceTree = "<group>"; };
 		8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRWindowManagerImpl.h; path = Sources/SRWindowManagerImpl.h; sourceTree = "<group>"; };
-		8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWindowManagerImpl.m; path = Sources/SRWindowManagerImpl.m; sourceTree = "<group>"; };
-		8AD2256E1BA2B45400FFF32E /* SRApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRApplication.swift; path = Sources/SRApplication.swift; sourceTree = "<group>"; };
+		8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = SRWindowManagerImpl.m; path = Sources/SRWindowManagerImpl.m; sourceTree = "<group>"; tabWidth = 4; };
+		8AD2256E1BA2B45400FFF32E /* SRApplicationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SRApplicationInfo.swift; path = Sources/SRApplicationInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,8 +66,8 @@
 		8A03F25C1B6A12B40061C349 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8AD2256E1BA2B45400FFF32E /* SRApplication.swift */,
-				8A03F2A31B6A15420061C349 /* SRWindow.swift */,
+				8AD2256E1BA2B45400FFF32E /* SRApplicationInfo.swift */,
+				8A03F2A31B6A15420061C349 /* SRWindowInfo.swift */,
 				8A03F2A51B6A176A0061C349 /* SRWindowManager.swift */,
 				8A03F2A71B6A19370061C349 /* SRWindowManagerImpl.h */,
 				8A03F2A81B6A19370061C349 /* SRWindowManagerImpl.m */,
@@ -115,11 +115,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Seorenn;
 				TargetAttributes = {
 					8A03F2501B6A127F0061C349 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -157,8 +158,8 @@
 			files = (
 				8A03F2AA1B6A19370061C349 /* SRWindowManagerImpl.m in Sources */,
 				8A03F2A61B6A176A0061C349 /* SRWindowManager.swift in Sources */,
-				8A03F2A41B6A15420061C349 /* SRWindow.swift in Sources */,
-				8AD2256F1BA2B45400FFF32E /* SRApplication.swift in Sources */,
+				8A03F2A41B6A15420061C349 /* SRWindowInfo.swift in Sources */,
+				8AD2256F1BA2B45400FFF32E /* SRApplicationInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,8 +180,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -229,8 +232,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -251,6 +256,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALID_ARCHS = "i386 x86_64 armv7s armv7 arm64";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -276,6 +282,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
@@ -298,6 +305,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;

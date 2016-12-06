@@ -9,14 +9,13 @@
 import Cocoa
 import SRWindowManager
 
-class AppItem: NSObject {
+struct AppItem {
     let name: String
-    let windows: [SRWindow]
+    let windows: [SRWindowInfo]
     
-    init(application: SRApplication) {
+    init(application: SRApplicationInfo) {
         self.name = application.localizedName
-        self.windows = application.windows
-        super.init()
+        self.windows = application.windowInfos
         
         print("Application: \(self.name) Windows: \(self.windows)")
     }

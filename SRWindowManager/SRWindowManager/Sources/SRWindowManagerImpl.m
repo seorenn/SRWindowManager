@@ -120,6 +120,25 @@ CFDictionaryRef _Nullable SRWindowCreateWindowDescription(CGWindowID windowID) {
     return desc;
 }
 
+NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetDescriptions(CGWindowID windowID) {
+    CGWindowID windowIDArray[1] = { windowID };
+    CFArrayRef descriptionInput = CFArrayCreate(kCFAllocatorDefault, (const void **)&windowIDArray, 1, NULL);
+    CFArrayRef descriptions = CGWindowListCreateDescriptionFromArray(descriptionInput);
+    
+    if (descriptions == NULL || CFArrayGetCount(descriptions) <= 0) {
+        CFRelease(descriptionInput);
+        if (descriptions) { CFRelease(descriptions); }
+        return NULL;
+    }
+
+    CFRelease(descriptionInput);
+
+    CFRetain(descriptions);
+    CFRelease(descriptions);
+
+    return (__bridge NSArray<NSDictionary<NSString *, id> *> *)descriptions;
+}
+
 //NSString * _Nonnull SRWindowGetWindowName(CGWindowID windowID) {
 //    CFDictionaryRef description = SRWindowCreateWindowDescription(windowID);
 //    if (description == NULL) return @"";

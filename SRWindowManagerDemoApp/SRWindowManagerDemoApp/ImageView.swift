@@ -12,7 +12,7 @@ typealias ImageViewClickHandler = (NSPoint) -> ()
 typealias ImageViewEventHandler = (ImageViewEvent, NSPoint?) -> ()
 
 enum ImageViewEvent {
-    case MouseEnter, MouseExit, MouseMoved
+    case mouseEnter, mouseExit, mouseMoved
 }
 
 class ImageView: NSImageView {
@@ -21,38 +21,38 @@ class ImageView: NSImageView {
     var eventHandler: ImageViewEventHandler?
     
     func makeTrackable() {
-        let trackingArea = NSTrackingArea(rect: self.bounds, options: [.MouseEnteredAndExited, .MouseMoved, .ActiveAlways], owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: self.bounds, options: [.mouseEnteredAndExited, .mouseMoved, .activeAlways], owner: self, userInfo: nil)
         self .addTrackingArea(trackingArea)
     }
     
-    override func mouseDown(theEvent: NSEvent) {
-        super.mouseDown(theEvent)
+    override func mouseDown(with theEvent: NSEvent) {
+        super.mouseDown(with: theEvent)
         guard let handler = self.clickHandler else { return }
         
-        if theEvent.clickCount == 1 && theEvent.type == .LeftMouseDown {
-            let point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+        if theEvent.clickCount == 1 && theEvent.type == .leftMouseDown {
+            let point = self.convert(theEvent.locationInWindow, from: nil)
             handler(point)
         }
     }
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         NSLog("Mouse Entered")
         guard let handler = self.eventHandler else { return }
-        let point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        handler(.MouseEnter, point)
+        let point = self.convert(theEvent.locationInWindow, from: nil)
+        handler(.mouseEnter, point)
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         NSLog("Mouse Exited")
         guard let handler = self.eventHandler else { return }
-        let point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        handler(.MouseExit, point)
+        let point = self.convert(theEvent.locationInWindow, from: nil)
+        handler(.mouseExit, point)
     }
     
-    override func mouseMoved(theEvent: NSEvent) {
+    override func mouseMoved(with theEvent: NSEvent) {
         guard let handler = self.eventHandler else { return }
-        let point = self.convertPoint(theEvent.locationInWindow, fromView: nil)
-        handler(.MouseMoved, point)
+        let point = self.convert(theEvent.locationInWindow, from: nil)
+        handler(.mouseMoved, point)
     }
     
 }
