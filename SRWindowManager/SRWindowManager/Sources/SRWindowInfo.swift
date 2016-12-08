@@ -179,6 +179,31 @@
         SRMousePostEvent(btn, .leftMouseUp, point)
       }
     }
+    
+    // MARK: - Another Informations
+    
+    private static var frontmostWindowElement: AXUIElement? {
+      var app: CFTypeRef?
+      let res = AXUIElementCopyAttributeValue(AXUIElementCreateSystemWide(), kAXFocusedApplicationAttribute as CFString, &app)
+      guard res == .success else {
+        print("Failed to get focused application attribute: \(res)")
+        return nil
+      }
+      
+      var window: CFTypeRef?
+      guard AXUIElementCopyAttributeValue(app! as! AXUIElement, NSAccessibilityFocusedWindowAttribute as CFString, &window) == .success else {
+        print("Failed to get accessibility focused window attribute")
+        return nil
+      }
+      
+      return window as! AXUIElement?
+    }
+    
+    public static var frontmost: SRWindowInfo? {
+      guard let element = SRWindowInfo.frontmostWindowElement else { return nil }
+      return SRWindowInfo(windowElement: element)
+    }
+    
   }
   
 #endif  // os(OSX)

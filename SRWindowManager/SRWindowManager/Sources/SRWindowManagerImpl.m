@@ -311,3 +311,90 @@ void SRMousePostEvent(CGMouseButton button, CGEventType type, const CGPoint poin
     CGEventPost(kCGHIDEventTap, event);
     CFRelease(event);
 }
+
+#pragma mark - Window Activation Detector
+
+@interface SRWindowActivationDetector () {
+    NSRunningApplication *_runningApplication;
+    AXUIElementRef _element;
+    AXObserverRef _observer;
+}
+- (void)performWithElement:(AXUIElementRef)element notificationName:(NSString *)notificationName;
+@end
+
+void SRWindowActivationCallback(AXObserverRef observer, AXUIElementRef element, CFStringRef notificationName, void *contextData) {
+    SRWindowActivationDetector *detector = (__bridge SRWindowActivationDetector *)contextData;
+    [detector performWithElement:element notificationName:(__bridge NSString *)notificationName];
+}
+
+@implementation SRWindowActivationDetector
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _observer = NULL;
+        _element = NULL;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    self.handler = nil;
+    [self stop];
+}
+
+- (void)performWithElement:(AXUIElementRef)element notificationName:(NSString *)notificationName {
+    NSLog(@"hit %@", notificationName);
+    if (self.handler) {
+        self.handler(element, _runningApplication);
+    }
+}
+
+- (void)startWithRunningApplication:(NSRunningApplication *)runningApplication {
+    NSAssert(runningApplication && runningApplication.processIdentifier != 0, @"Invalid Application");
+    
+    AXError err = AXObserverCreate(runningApplication.processIdentifier, SRWindowActivationCallback, &_observer);
+    if (err != kAXErrorSuccess) {
+        NSLog(@"Failed to create observer");
+        return;
+    }
+    
+    _element = AXUIElementCreateApplication(runningApplication.processIdentifier);
+    
+    err = AXObserverAddNotification(_observer, _element, kAXWindowCreatedNotification, (__bridge void *)self);
+    if (err != kAXErrorSuccess) {
+        NSLog(@"Failed to add notification to observer: kAXWindowCreatedNotification");
+    }
+    err = AXObserverAddNotification(_observer, _element, kAXFocusedWindowChangedNotification, (__bridge void *)self);
+    if (err != kAXErrorSuccess) {
+        NSLog(@"Failed to add notification to observer: kAXFocusedWindowChangedNotification");
+    }
+    err = AXObserverAddNotification(_observer, _element, kAXWindowResizedNotification, (__bridge void *)self);
+    if (err != kAXErrorSuccess) {
+        NSLog(@"Failed to add notification to observer: kAXWindowResizedNotification");
+    }
+    
+    CFRunLoopAddSource ([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(_observer), kCFRunLoopDefaultMode);
+    
+    _runningApplication = runningApplication;
+}
+
+- (void)stop {
+    if (_element == nil || _observer == nil) return;
+
+    CFRunLoopRemoveSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(_observer), kCFRunLoopDefaultMode);
+    
+    AXObserverRemoveNotification(_observer, _element, kAXWindowCreatedNotification);
+    AXObserverRemoveNotification(_observer, _element, kAXFocusedWindowChangedNotification);
+    AXObserverRemoveNotification(_observer, _element, kAXWindowResizedNotification);
+    
+    CFRelease(_observer);
+    CFRelease(_element);
+    
+    _observer = NULL;
+    _element = NULL;
+    _runningApplication = nil;
+}
+
+@end
+

@@ -41,9 +41,11 @@
       }
     }
     
+    // NOTE: Deprecated. Moved to SRWindowInfo
     //fileprivate let systemWideElement = AXUIElementCreateSystemWide().takeUnretainedValue();
     fileprivate let systemWideElement = AXUIElementCreateSystemWide()
     
+    // NOTE: Deprecated. Moved to SRWindowInfo
     fileprivate var frontmostWindowElement: AXUIElement? {
       var app: CFTypeRef?
       let res = AXUIElementCopyAttributeValue(self.systemWideElement, kAXFocusedApplicationAttribute as CFString, &app)
@@ -61,6 +63,9 @@
       return window as! AXUIElement?
     }
     
+    private var activationDetector: SRWindowActivationDetector?
+    
+    // NOTE: Deprecated. Moved to SRWindowInfo
     open var frontmostWindowInfo: SRWindowInfo? {
       guard let element = self.frontmostWindowElement else { return nil }
       return SRWindowInfo(windowElement: element)
@@ -82,17 +87,29 @@
       if self.detecting { return }
       
       self.nc.addObserver(forName: NSNotification.Name.NSWorkspaceDidActivateApplication, object: nil, queue: OperationQueue.main, using: {
-        (notification) -> Void in
+        [unowned self] (notification) -> Void in
         
-        print("Workspace Did Activate Application Notification")
+        //print("Workspace Did Activate Application Notification")
         
         guard let userInfo = notification.userInfo as? [String: AnyObject] else {
-          print("There's no user informations.")
+          print("WARN: There's no user informations.")
           return
         }
         guard let application = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication else {
-          print("There's no application informations.")
+          print("WARN: There's no application informations.")
           return
+        }
+        
+        let interval = 0.5
+        let t = DispatchTime.now() + .milliseconds(Int(interval * 1000))
+        DispatchQueue.main.asyncAfter(deadline: t) {
+          self.activationDetector = SRWindowActivationDetector()
+          self.activationDetector?.handler = { [unowned self] (element, runningApplication) in
+            if let appHandler = self.detectingApplicationHandler {
+              appHandler(SRApplicationInfo(runningApplication: runningApplication))
+            }
+          }
+          self.activationDetector?.start(with: application)
         }
         
         if let appHandler = self.detectingApplicationHandler {
@@ -113,6 +130,8 @@
       if self.detecting == false { return }
       
       self.detectingApplicationHandler = nil
+      self.activationDetector?.stop()
+      self.activationDetector = nil
       
       self.nc.removeObserver(self)
       self.detecting = false

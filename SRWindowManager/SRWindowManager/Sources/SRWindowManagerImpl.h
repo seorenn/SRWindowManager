@@ -35,3 +35,11 @@ BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect fra
 
 void SRMousePostEvent(CGMouseButton button, CGEventType type, const CGPoint point);
 
+#pragma mark - Window Activation Detector
+
+@interface SRWindowActivationDetector : NSObject
+@property (nonatomic, strong, nullable) void (^handler)(AXUIElementRef _Nonnull element, NSRunningApplication * _Nonnull runningApplication);
+- (void)startWithRunningApplication:(NSRunningApplication * _Nonnull)runningApplication;
+- (void)stop;
+@end
+
