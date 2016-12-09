@@ -351,6 +351,11 @@ void SRWindowActivationCallback(AXObserverRef observer, AXUIElementRef element, 
 }
 
 - (void)startWithRunningApplication:(NSRunningApplication *)runningApplication {
+    if (!AXIsProcessTrusted()) {
+        NSLog(@"WARN: This process not trusted from user.");
+        return;
+    }
+    
     NSAssert(runningApplication && runningApplication.processIdentifier != 0, @"Invalid Application");
     
     AXError err = AXObserverCreate(runningApplication.processIdentifier, SRWindowActivationCallback, &_observer);
@@ -374,7 +379,7 @@ void SRWindowActivationCallback(AXObserverRef observer, AXUIElementRef element, 
         NSLog(@"Failed to add notification to observer: kAXWindowResizedNotification");
     }
     
-    CFRunLoopAddSource ([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(_observer), kCFRunLoopDefaultMode);
+    CFRunLoopAddSource (CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(_observer), kCFRunLoopDefaultMode);
     
     _runningApplication = runningApplication;
 }
@@ -382,14 +387,19 @@ void SRWindowActivationCallback(AXObserverRef observer, AXUIElementRef element, 
 - (void)stop {
     if (_element == nil || _observer == nil) return;
 
-    CFRunLoopRemoveSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(_observer), kCFRunLoopDefaultMode);
+    if (_observer) {
+        CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(_observer), kCFRunLoopDefaultMode);
     
-    AXObserverRemoveNotification(_observer, _element, kAXWindowCreatedNotification);
-    AXObserverRemoveNotification(_observer, _element, kAXFocusedWindowChangedNotification);
-    AXObserverRemoveNotification(_observer, _element, kAXWindowResizedNotification);
+        AXObserverRemoveNotification(_observer, _element, kAXWindowCreatedNotification);
+        AXObserverRemoveNotification(_observer, _element, kAXFocusedWindowChangedNotification);
+        AXObserverRemoveNotification(_observer, _element, kAXWindowResizedNotification);
     
-    CFRelease(_observer);
-    CFRelease(_element);
+        CFRelease(_observer);
+    }
+    
+    if (_element) {
+        CFRelease(_element);
+    }
     
     _observer = NULL;
     _element = NULL;
