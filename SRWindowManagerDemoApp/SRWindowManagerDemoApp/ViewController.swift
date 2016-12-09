@@ -51,10 +51,10 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
     
     // Do any additional setup after loading the view.
     
-    SRWindowManager.sharedInstance.startDetectApplicationActivating { (app) -> () in
+    SRWindowManager.shared.startDetectApplicationActivating { (app) -> () in
       print("App Activation: \(app)")
       print("App Windows: \(app.windowInfos)")
-      guard let window = SRWindowManager.sharedInstance.frontmostWindowInfo else { return }
+      guard let window = SRWindowManager.shared.frontmostWindowInfo else { return }
       print("Frontmost Window: \(window)")
     }
     

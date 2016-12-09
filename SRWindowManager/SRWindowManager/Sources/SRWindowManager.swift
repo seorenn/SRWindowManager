@@ -13,7 +13,7 @@
   public typealias SRWindowActivatingApplicationHandler = (SRApplicationInfo) -> ()
   
   open class SRWindowManager: CustomDebugStringConvertible {
-    open static let sharedInstance = SRWindowManager()
+    open static let shared = SRWindowManager()
     
     open fileprivate(set) var detecting = false
     
