@@ -55,8 +55,6 @@
     
     public var frame: NSRect {
       get {
-        //guard let element = self.windowElement else { return NSRect.null }
-        
         var positionObject: CFTypeRef? = nil
         if AXUIElementCopyAttributeValue(windowElement, kAXPositionAttribute as CFString, &positionObject) != .success {
           return NSRect.null
@@ -128,9 +126,40 @@
       return SRWindowInfoSharingState(rawValue: state)!
     }
     
+    public var applicationInfo: SRApplicationInfo {
+      return SRApplicationInfo(pid: pid)
+    }
+    
+    
+    // MARK: - Another Informations
+    
+    private static var frontmostWindowElement: AXUIElement? {
+      var app: CFTypeRef?
+      let res = AXUIElementCopyAttributeValue(AXUIElementCreateSystemWide(), kAXFocusedApplicationAttribute as CFString, &app)
+      guard res == .success else {
+        print("Failed to get focused application attribute: \(res)")
+        return nil
+      }
+      
+      var window: CFTypeRef?
+      guard AXUIElementCopyAttributeValue(app! as! AXUIElement, NSAccessibilityFocusedWindowAttribute as CFString, &window) == .success else {
+        print("Failed to get accessibility focused window attribute")
+        return nil
+      }
+      
+      return window as! AXUIElement?
+    }
+    
+    public static var frontmost: SRWindowInfo? {
+      guard let element = SRWindowInfo.frontmostWindowElement else { return nil }
+      return SRWindowInfo(windowElement: element)
+    }
+
     public var debugDescription: String {
       return "<SRWindowInfo \"\(self.name)\" ID[\(self.windowID)] PID[\(self.pid)] Frame[\(self.frame)]>"
     }
+    
+    // MARK: - Some Implementation of Actions for Window
     
     public func activate() {
       guard let app = NSRunningApplication(processIdentifier: self.pid) else {
@@ -141,7 +170,7 @@
       app.activate(options: .activateIgnoringOtherApps)
     }
     
-    fileprivate func convertButtonType(_ button: SRMouseButtonType) -> CGMouseButton {
+    private func convertButtonType(_ button: SRMouseButtonType) -> CGMouseButton {
       switch (button) {
       case SRMouseButtonType.left:
         return CGMouseButton.left
@@ -152,7 +181,7 @@
       }
     }
     
-    fileprivate func convertMousePoint(_ position: CGPoint) -> CGPoint? {
+    private func convertMousePoint(_ position: CGPoint) -> CGPoint? {
       let point = CGPoint(x: self.frame.origin.x + position.x, y: self.frame.origin.y + position.y)
       if self.frame.contains(point) == false { return nil }
       
@@ -178,30 +207,6 @@
         SRMousePostEvent(btn, .leftMouseDown, point)
         SRMousePostEvent(btn, .leftMouseUp, point)
       }
-    }
-    
-    // MARK: - Another Informations
-    
-    private static var frontmostWindowElement: AXUIElement? {
-      var app: CFTypeRef?
-      let res = AXUIElementCopyAttributeValue(AXUIElementCreateSystemWide(), kAXFocusedApplicationAttribute as CFString, &app)
-      guard res == .success else {
-        print("Failed to get focused application attribute: \(res)")
-        return nil
-      }
-      
-      var window: CFTypeRef?
-      guard AXUIElementCopyAttributeValue(app! as! AXUIElement, NSAccessibilityFocusedWindowAttribute as CFString, &window) == .success else {
-        print("Failed to get accessibility focused window attribute")
-        return nil
-      }
-      
-      return window as! AXUIElement?
-    }
-    
-    public static var frontmost: SRWindowInfo? {
-      guard let element = SRWindowInfo.frontmostWindowElement else { return nil }
-      return SRWindowInfo(windowElement: element)
     }
     
   }

@@ -12,27 +12,30 @@
   
   public typealias SRWindowActivatingApplicationHandler = (SRApplicationInfo) -> ()
   
-  open class SRWindowManager: CustomDebugStringConvertible {
-    open static let shared = SRWindowManager()
+  public class SRWindowManager: CustomDebugStringConvertible {
+    public static let shared = SRWindowManager()
     
-    open fileprivate(set) var detecting = false
+    open private(set) var detecting = false
     
-    fileprivate let nc = NSWorkspace.shared().notificationCenter
-    fileprivate var detectingApplicationHandler: SRWindowActivatingApplicationHandler?
+    private var nc: NotificationCenter {
+      return NSWorkspace.shared().notificationCenter
+    }
+
+    private var detectingApplicationHandler: SRWindowActivatingApplicationHandler?
     
-    fileprivate lazy var pointer: UnsafeMutableRawPointer = {
+    private lazy var pointer: UnsafeMutableRawPointer = {
       return UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
     }()
     
-    open class var available: Bool {
+    public class var available: Bool {
       return AXIsProcessTrustedWithOptions(nil)
     }
     
-    open class func requestAccessibility() {
+    public class func requestAccessibility() {
       SRWindowRequestAccessibility()
     }
     
-    open class func openAccessibilityAccessDialogWindow() {
+    public class func openAccessibilityAccessDialogWindow() {
       let script = "tell application \"System Preferences\" \n reveal anchor \"Privacy_Accessibility\" of pane id \"com.apple.preference.security\" \n activate \n end tell"
       //let script_for_10_8_or_lower = "tell application \"System Preferences\" \n set the current pane to pane id \"com.apple.preference.universalaccess\" \n activate \n end tell"
       
@@ -41,49 +44,21 @@
       }
     }
     
-    // NOTE: Deprecated. Moved to SRWindowInfo
-    //fileprivate let systemWideElement = AXUIElementCreateSystemWide().takeUnretainedValue();
-    fileprivate let systemWideElement = AXUIElementCreateSystemWide()
-    
-    // NOTE: Deprecated. Moved to SRWindowInfo
-    fileprivate var frontmostWindowElement: AXUIElement? {
-      var app: CFTypeRef?
-      let res = AXUIElementCopyAttributeValue(self.systemWideElement, kAXFocusedApplicationAttribute as CFString, &app)
-      guard res == .success else {
-        print("Failed to get focused application attribute: \(res)")
-        return nil
-      }
-      
-      var window: CFTypeRef?
-      guard AXUIElementCopyAttributeValue(app! as! AXUIElement, NSAccessibilityFocusedWindowAttribute as CFString, &window) == .success else {
-        print("Failed to get accessibility focused window attribute")
-        return nil
-      }
-      
-      return window as! AXUIElement?
-    }
-    
     private var activationDetector: SRWindowActivationDetector?
-    
-    // NOTE: Deprecated. Moved to SRWindowInfo
-    open var frontmostWindowInfo: SRWindowInfo? {
-      guard let element = self.frontmostWindowElement else { return nil }
-      return SRWindowInfo(windowElement: element)
-    }
     
     public init() { }
     
     deinit {
-      self.stopAll()
+      self.stopDetectApplicationActivating()
     }
     
-    open class var applicationInfos: [SRApplicationInfo] {
+    public class var applicationInfos: [SRApplicationInfo] {
       return NSWorkspace.shared().runningApplications.map {
         SRApplicationInfo(runningApplication: $0)
       }
     }
     
-    fileprivate func startDetector() {
+    private func startDetector() {
       if self.detecting { return }
       
       self.nc.addObserver(forName: NSNotification.Name.NSWorkspaceDidActivateApplication, object: nil, queue: OperationQueue.main, using: {
@@ -121,12 +96,12 @@
       self.detecting = true
     }
     
-    open func startDetectApplicationActivating(_ handler: @escaping SRWindowActivatingApplicationHandler) {
+    public func startDetectApplicationActivating(_ handler: @escaping SRWindowActivatingApplicationHandler) {
       self.detectingApplicationHandler = handler
       self.startDetector()
     }
     
-    open func stopAll() {
+    public func stopDetectApplicationActivating() {
       if self.detecting == false { return }
       
       self.detectingApplicationHandler = nil
@@ -137,7 +112,7 @@
       self.detecting = false
     }
     
-    open var debugDescription: String {
+    public var debugDescription: String {
       let info = self.detecting ? " [DETECTING WINDOW ACTIVATION]" : ""
       return "<SRWindowManager\(info)>"
     }

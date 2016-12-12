@@ -54,7 +54,7 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
     SRWindowManager.shared.startDetectApplicationActivating { (app) -> () in
       print("App Activation: \(app)")
       print("App Windows: \(app.windowInfos)")
-      guard let window = SRWindowManager.shared.frontmostWindowInfo else { return }
+      guard let window = SRWindowInfo.frontmost else { return }
       print("Frontmost Window: \(window)")
     }
     
