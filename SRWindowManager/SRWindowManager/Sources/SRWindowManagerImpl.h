@@ -11,9 +11,9 @@
 
 @import CoreGraphics;
 
-void SRWindowRequestAccessibility();
+void SRWindowRequestAccessibility(void);
 
-NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList();
+NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList(void);
 NSImage * _Nullable SRWindowCaptureScreen(CGWindowID windowID, NSRect bounds);
 CFArrayRef _Nonnull SRWindowCreateWindowDescriptionInput(CGWindowID windowID);
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetDescriptions(CGWindowID windowID);
@@ -27,7 +27,7 @@ pid_t SRWindowGetWindowOwnerPID(CGWindowID windowID);
 CGWindowID SRWindowGetID(AXUIElementRef _Nonnull windowElement);
 CFArrayRef _Nullable SRWindowCopyApplicationWindows(AXUIElementRef _Nonnull applicationElement);
 AXUIElementRef _Nullable SRWindowCopyWindowElementFromArray(CFArrayRef _Nonnull theArray, int index);
-AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement();
+AXUIElementRef _Nullable SRWindowGetFrontmostWindowElement(void);
 //CGRect SRWindowGetFrameOfWindowElement(AXUIElementRef _Nonnull windowElement);
 BOOL SRWindowMoveWindowElement(AXUIElementRef _Nonnull windowElement, CGRect frame);
 
