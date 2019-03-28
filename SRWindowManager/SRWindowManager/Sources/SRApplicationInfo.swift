@@ -27,12 +27,12 @@ public struct SRApplicationInfo: CustomDebugStringConvertible {
         return self.runningApplication.processIdentifier
     }
     
-    public var localizedName: String {
-        return self.runningApplication.localizedName!
+    public var localizedName: String? {
+        return self.runningApplication.localizedName
     }
     
-    public var bundleIdentifier: String {
-        return self.runningApplication.bundleIdentifier!
+    public var bundleIdentifier: String? {
+        return self.runningApplication.bundleIdentifier
     }
     
     public var icon: NSImage? {
@@ -61,6 +61,6 @@ public struct SRApplicationInfo: CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
-        return "<SRApplicationInfo: \(self.localizedName)(PID:\(self.pid))>"
+        return "<SRApplicationInfo: \(String(describing: bundleIdentifier)) \(String(describing: localizedName)) (PID:\(pid))>"
     }
 }

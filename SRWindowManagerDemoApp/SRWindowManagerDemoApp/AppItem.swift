@@ -14,7 +14,7 @@ struct AppItem {
     let windows: [SRWindowInfo]
     
     init(application: SRApplicationInfo) {
-        self.name = application.localizedName
+        self.name = application.localizedName ?? "(No Name)"
         self.windows = application.windowInfos
         
         print("Application: \(self.name) Windows: \(self.windows)")
