@@ -68,8 +68,6 @@ class ViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
     @IBAction func pressedOpenAccessibility(_ sender: AnyObject) {
         if SRWindowManager.available {
             SRWindowManager.openAccessibilityAccessDialogWindow()
-        } else {
-            SRWindowManager.requestAccessibility()
         }
     }
     

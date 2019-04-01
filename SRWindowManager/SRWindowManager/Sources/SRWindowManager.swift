@@ -28,11 +28,9 @@ public class SRWindowManager: CustomDebugStringConvertible {
     }()
     
     public class var available: Bool {
-        return AXIsProcessTrustedWithOptions(nil)
-    }
-    
-    public class func requestAccessibility() {
-        SRWindowRequestAccessibility()
+        let trusted = kAXTrustedCheckOptionPrompt.takeUnretainedValue()
+        let privOptions = [trusted: true] as CFDictionary
+        return AXIsProcessTrustedWithOptions(privOptions)
     }
     
     public class func openAccessibilityAccessDialogWindow() {

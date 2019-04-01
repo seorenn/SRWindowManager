@@ -36,11 +36,6 @@ void SRWindowLogUIElementCopyAttributeError(NSString *prefix, AXError error) {
     }
 }
 
-void SRWindowRequestAccessibility() {
-    NSDictionary *options = @{ (__bridge id)kAXTrustedCheckOptionPrompt: @YES };
-    AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options);
-}
-
 NSArray<NSDictionary<NSString *, id> *> * _Nullable SRWindowGetInfoList() {
     CGWindowListOption listOptions;
     listOptions = kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements;
